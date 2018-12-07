@@ -1,0 +1,346 @@
+20181204
+今日主要内容是小程序的udacity课程。 
+1-3课的内容笔记
+
+1.<img>的两个属性alt 和title同时设置时，alt作为图片的替代文字出现，title是图片的解释文字。
+
+2.
+var donuts = [
+    { type: "Jelly", cost: 1.22 },
+    { type: "Chocolate", cost: 2.45 },
+    { type: "Cider", cost: 1.59 },
+    { type: "Boston Cream", cost: 5.99 }
+];
+
+// your code goes here
+
+donuts.forEach(function(item){
+    console.log(item.type + " donuts cost $" + item.cost + " each" );
+});
+
+打印结果：
+
+Jelly donuts cost $1.22 each
+Chocolate donuts cost $2.45 each
+Cider donuts cost $1.59 each
+Boston Cream donuts cost $5.99 each
+
+// TO BE CONTINUED:
+forEach（）方法
+https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+Array.prototype.forEach()
+
+
+3.
+桌面开发工具：打开工具，扫码登录，创建项目
+
+手机端开发：
+注册，获取ID，给自己或者朋友的微信号设置远程调试权限。
+
+在没有 AppID 的情况下，你不能在手机微信上预览小程序。
+
+你可以在建立项目时，使用自己的 AppID。需要注意的是，使用自己的 AppID 后，你对代码进行了修改 (project.config.json 文件第 12 行)，在下次切换到其他分支时，你会被提示需要保存修改切换失败。这时你需要使用参数 -f 来强制切换分支，擦除你产生的修改。
+
+4.构建小程序页面
+
+插入文字和图片
+调整排列和样式
+对页面导航栏颜色进行调整
+
+小程序开发工具由三个部分组成，模拟器，编辑器和调试器
+
+
+5.
+小程序( rpx、px、rem )
+
+rpx 是微信小程序解决自适应屏幕尺寸的尺寸单位。微信小程序规定屏幕的宽度为750rpx。
+
+无论是在iPhone6上面还是其他机型上面都是750rpx的屏幕宽度，拿iPhone6来讲，屏幕宽度为375px，把它分为750rpx后， 1rpx = 0.5px。
+设备	rpx换算px (屏幕宽度/750)	px换算rpx (750/屏幕宽度)
+iPhone5	1rpx = 0.42px	1px = 2.34rpx
+iPhone6	1rpx = 0.5px	1px = 2rpx
+iPhone6 Plus	1rpx = 0.552px	1px = 1.81rpx
+建议： 开发微信小程序时设计师可以用 iPhone6 作为视觉稿的标准。
+
+微信小程序同时也支持rem尺寸单位， rem 规定屏幕的宽度为20rem, 所以 1rem = (750/20)rpx = 37.5 rpx
+
+px、em、rem、rpx 作用和用法
+https://blog.csdn.net/Riven_wn/article/details/80528187
+
+作业题：
+如何理解rpx？ 
+rpx（responsive pixel）: 可以根据屏幕宽度进行自适应。规定屏幕宽为750rpx。如在 iPhone6 上，屏幕宽度为375px，共有750个物理像素，则750rpx = 375px = 750物理像素，1rpx = 0.5px = 1物理像素。 
+小测试： 
+1、rpx 全称是什么？（请填写英语全称） 
+responsive pixel 
+2、iphone 7 的屏幕宽度对应多少 rpx？ 
+750rpx 
+3、iphone 7 的屏幕高度对应多少 rpx？ 
+iPhone 7 宽高比 375 x 667, 因此屏幕高度对应与 667 / 375 x 750 rpx = 1334 rpx
+
+4、iphone 7 Plus 的屏幕宽度对应多少 rpx？ 
+750rpx 
+5、iphone 7 Plus 的屏幕高度对应多少 rpx？ 
+iPhone 7 Plus 宽高比 414 x 736，因此屏幕高度对应与 736 / 414 x 750 rpx = 1333.33 rpx
+
+6、iphone X 的屏幕宽度对应多少 rpx？ 
+750rpx 
+7、iphone X 的屏幕高度对应多少 rpx？ 
+iPhone X 宽高比 375 x 812，因此屏幕高度对应与 812 / 375 x 750 rpx = 1624 rpx
+
+看完上面的答案你应该已经知道什么是rpx
+--------------------- 
+作者：MrShuHong 
+来源：CSDN 
+原文：https://blog.csdn.net/dingshuhong_/article/details/80488003 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+
+
+6.一般设置字体大小后，用1.4倍，设置line-height。
+
+7.
+我们从官方文档中可以看到，scaleToFill 的含义为
+
+不保持纵横比缩放图片，使图片的宽高完全拉伸至填满 image 元素
+
+这里一共有三层结构，图片会100%占据 image视图的高和宽，image视图会100%占据容器的高和宽，而容器宽 750rpx 高 760rpx，所以图片缩放模式虽然为 scaleToFill， 但它的宽高比还是会被保持。这种由上至下的布局模式（先确定外层大小，再调整内层占比和缩放）比由下至上的布局模式（先确定内层缩放，再确定外层大小）更清晰明确，也能够轻松适配不同的屏幕。
+
+你可能还注意到，mode属性的默认值就是 scaleToFill，其实我们完全不用声明。但为了更好的可读性，我们还是将这个重要属性声明了出来
+
+微信<image>mode属性说明：
+https://developers.weixin.qq.com/miniprogram/dev/component/image.html
+
+8.
+最后，我添加了 weather-bg 的样式让它从容器的左上角开始，100%占据容器的高和宽，并处于其他兄弟视图的下层。
+
+.weather-wrapper {
+  position: relative;
+}
+
+.weather-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+9.
+为什么放置absolute位置的子视图在relative位置的父视图中？
+
+https://css-tricks.com/absolute-positioning-inside-relative-positioning/
+
+MDN 定位
+https://developer.mozilla.org/zh-CN/docs/Web/CSS/position
+
+10.
+修改小程序导航栏的颜色
+navigationBarBackgroundColor 这个属性。微信官方文档中也对这一属性做了说明。我们可以在 app.json 中找到这一属性并将它修改。
+
+11.
+小程序刚刚启动时，会调用启动页面的 onLoad() 函数。我们可以给 Page() 传入 onLoad() 函数，在其中添加一句打印语句:
+
+Page({
+  onLoad() {
+    console.log("Hello World!")
+  } 
+})
+
+12.
+URL格式说明
+URL（统一资源定位符）是 URI（通用资源标识）的特定类型。
+
+URL 通常由以下三或四个组成部分组成，第四部分可省略：
+
+协议。它可以是 HTTP（不带 SSL）或 HTTPS（带 SSL）。
+主机。例如：cn.udacity.com。
+路径。例如：/course/wechat-mini-program--nd666-cn-1。
+查询字符串。规则为?后显示参数查询值，伪 url 为：?param1=value1&param2=value2。
+综上，url 的书写规则为：http:/path/path/path?param1=value1&param2=value2
+
+13.
+json美化
+https://codebeautify.org/jsonviewer
+
+14。
+wx.request 的官方文档
+https://developers.weixin.qq.com/miniprogram/dev/api/wx.request.html
+
+它是微信提供的一个向服务器发送请求的函数。在这里它能够帮助我们从网络下载数据。我们用 JSON 格式向它传入参数，可以看到， 在这里我们指定了三个参数，分别为 url、data、success。
+
+Url 是请求服务的服务求接口地址，在这里就使用我们天气的 API 地址。
+Data 是请求的参数，在这里我们仅使用了一个 city 参数。
+Success 确定了我们在获取数据成功时进行的操作，它的值应当是一个方法/函数。
+
+我们来仔细研究一下 success 参数。success 参数的类型为 Function。 所以我们要传入一个函数作为参数。因此，我们会定义一个函数，函数会在 wx.request 执行成功后被调用。作为一个函数，它本身也有参数。在官方文档中我们可以看到 success返回参数包括 data, statusCode, header, 我们可以从 data 中获得服务器返回的数据。
+
+wx.request({
+  url: 'https://test-miniprogram.com/api/weather/now', 
+  data: {
+     city: '广州市' 
+  },
+  success: res => {
+    console.log(res)
+  }
+})
+
+wx.request 保证了 API 返回的所有数据都存储在 res.data 中, 而天气 API 将数据存储在返回数据的 result 中。看到气温可以由 res.data.result.now.temp 获得，而天气可以由 res.data.result.now.weather。
+
+15.数据绑定的官方文档
+https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/data.html
+
+<view>{{ myData1 }}</view>
+<view>{{ myData2 }}</view>
+
+在Page里
+Page ({
+    data:{
+        myData1:15,
+        myData2:500
+            
+    },
+    onload() {}   //生命周期函数
+})
+
+16.
+阅读 setData() 的官方文档我们看到
+
+setData 函数用于将数据从逻辑层发送到视图层（异步），同时改变对应的 this.data 的值（同步）。
+
+注意：1. 直接修改 this.data 而不调用 this.setData 是无法改变页面的状态的，还会造成数据不一致。
+
+这里逻辑层就是指 js 代码，视图层就是指 wxml 和 wxss 代码。setData() 会首先更新 this.data 的值，然后使用新的 this.data 数据来渲染页面。setData() 会在改变 this.data() 后直接返回，而不会等待渲染结束后再返回。如果你对这里的同步异步还不是特别的了解，也没有关系，我们会慢慢接触到更多更多的异步调用的。另一个重要的事情是，我们需要调用 this.setData 函数来更新 Data 中的数据而不是去直接修改 this.data 。文档专门用加黑的字体告诉我们不要这么做。
+
+因此我执行了
+
+this.setData({
+    nowTemp: result.now.temp,
+    nowWeather: result.now.weather
+})   //这一段在wx.request的success 函数里
+
+
+17.
+这说明属性也可以由动态的数据来控制
+// in WXML
+<image class="weather-bg" src="{{nowWeatherBackground}}" mode="scaleToFill"></image>
+
+// in Page
+data{
+    nowWeatherBackground: ""
+}
+
+// in success: res=>{...}
+this.setData{
+    nowWeatherBackground: '/images/' + weather + '-bg.png' //有一定的巧妙可以学习，图片和天气对应起来
+}
+
+18.
+根据不同天气动态修改导航栏颜色
+这个映射常量的使用，比较巧妙啊。
+const weatherColorMap = {
+ 'sunny': '#cbeefd',
+ 'cloudy': '#deeef6',
+ 'overcast': '#c6ced2',
+ 'lightrain': '#bdd5e1',
+ 'heavyrain': '#c5ccd0',
+ 'snow': '#aae1fc'
+}
+
+//in success
+wx.setNavigationBarColor({
+       frontColor: '#000000',
+       backgroundColor: weatherColorMap[weather],
+}) 
+
+19.
+下拉刷新
+
+const weatherMap = {
+  'sunny': '晴天',
+  'cloudy': '多云',
+  'overcast': '阴',
+  'lightrain': '小雨',
+  'heavyrain': '大雨',
+  'snow': '雪'
+}
+
+const weatherColorMap = {
+  'sunny': '#cbeefd',
+  'cloudy': '#deeef6',
+  'overcast': '#c6ced2',
+  'lightrain': '#bdd5e1',
+  'heavyrain': '#c5ccd0',
+  'snow': '#aae1fc'
+}
+
+Page({
+  data: {
+    nowTemp: '',
+    nowWeather: '',
+    nowWeatherBackground: ""
+  },
+  onLoad() {
+    this.getNow()    //注意调用函数加了this
+  },
+  onPullDownRefresh(){
+    this.getNow(() => {
+      wx.stopPullDownRefresh()
+    })  //给getNow()传一个匿名的回调函数，表示getNow()执行完之后，调用wx.stopPullDownRefresh
+  },
+  
+  getNow(callback){
+    wx.request({
+      //ajax request的第一项
+      url: 'https://test-miniprogram.com/api/weather/now',
+      //ajax request的第二项
+      data: {
+        city: '广州市'
+      },
+      //ajax request的第三项
+      success: res => {
+        let result = res.data.result
+        let temp = result.now.temp
+        let weather = result.now.weather
+        this.setData({      //注意调用setData()加了this
+          nowTemp: temp + '°',
+          nowWeather: weatherMap[weather],
+          nowWeatherBackground: '/images/' + weather + '-bg.png'
+        })
+        wx.setNavigationBarColor({
+          frontColor: '#000000',
+          backgroundColor: weatherColorMap[weather],
+        })
+      },
+      //ajax request的第四项
+      complete: () =>{
+        callback && callback()   //这个写法牛逼：如果有回调函数的话，执行回调函数
+      }
+    })
+  }
+})
+
+体会一下，两个十分接近的功能，百分之90相同，百分之10不同，既要简洁，又不能存在可能的错误。
+用函数，来封装相同的东西。
+用函数参数，来做区分。
+如果这个“不同”的东西，是要做某件事情，那么就把回调函数当参数。
+
+20.
+这个作业题挺好
+
+以下哪个参数是函数类型的？你可能需要在开发文档中确认这些参数的类型？（以下都是函数作参数）
+Page的参数onLoad
+Page的onPullDownRefresh
+wx.request的参数complete
+wx.request的参数success
+getNow的参数callback
+setData()的参数callback
+
+
+
+
+
+
+
+
+

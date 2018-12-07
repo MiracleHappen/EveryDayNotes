@@ -1,0 +1,59 @@
+20181206
+
+1.复制的物体，和他们的layers关系。
+
+由A复制出来的A1 -A4，layers关系如下：
+
+
+
+A1
+A2
+A3
+A4
+A
+
+
+2.
+Group the selected artwork		Command + G
+Ungroup the selected artwork	Shift + Command + G
+
+3.
+多项选中，点击一个之后，shift + click剩下的每一个。
+
+4.多选之后，选择divide（pathfinder面板上）。
+这些选中的项的交叉的线条，会切割彼此，形成诸多小的图形。且这些小的图形默认在一个Group里面。这时候可以用Ungroup取消它们在一起的Group，让这些小图形成为独立的和其他平级的个体。
+
+5.alt/opt + shift + drag 
+  alt/opt + drag
+  Cmd + C  
+  Cmd + F
+  
+6.cmd -   zoom out
+  cmd +   zoom in
+  
+7.
+ancor box太不方便时，可以从view 里面Hide bounding box，这样可以轻松的移动复制这个小物体。
+
+8.
+选中物体，Object  --> Transform --> 50%  可以缩小物体。
+再选另一个想执行同样的操作，用command + D
+
+9.选中所有物体，shift + 下方向键，可以让整体下移.
+
+10.打开Window，找到swatch, Gradient。新建两个swatch，分别添加到Gradient的左右两侧，就会形成从一个颜色到另一个颜色的渐变色。
+
+11.eyedropper,
+想给好多物体，使用某个页面已经有的颜色。
+只要多选这些物体，然后按i，打开eyedropper， 然后再去点要取色的物体。
+那这所有的物体就是这颜色了。
+
+12.
+cmd+c, copy
+cmd + v，paste in front 这些可以在Edit里找到
+cmd + f ,paste in place，有什么区别？
+
+按下shift + arrowkey >可以移动选中物体，一下使10Px
+选中物体，直接用arrow key也可以移动，就是步长要小很多，一次是1px.
+
+  
+  

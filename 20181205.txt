@@ -1,0 +1,137 @@
+20181205
+1.
+
+添加“未来24小时天气”
+
+// WXML 中
+<view class="timetips">
+  <image class="timetips-icon" src="/images/time-icon.png"></image>
+  <view class="timetips-text">未来24小时天气预测</view>
+ </view>
+
+// WXSS 中
+.timetips {
+  display: flex;   //注意
+  justify-content: center;   //注意
+  align-items: center;
+  margin-top: 40rpx;
+}
+
+.timetips-icon {
+  margin-right: 10rpx;
+  width: 36rpx;
+  height: 28rpx;
+}
+
+.timetips-text {
+  font-size: 30rpx;
+  line-height: 42rpx;
+  opacity: 0.5;
+}
+
+
+2.
+<view> 1 </view>
+<view> 2 </view>
+<view> 3 </view>
+<view> 4 </view>
+<view> 5 </view>
+可以通过 wx:for 列表渲染方式，一行代码完成定义。
+
+<view wx:for="{{[1,2,3,4,5]}}">{{item}}</view>  //里面是列表List[]，{{这里是什么名称不重要}}
+
+通过 wx:for 定义代码量更少
+
+通过 wx:for 定义更灵活，例如五个变成六个只要做很小的改动。
+
+通过 wx:for 定义可以使用动态的列表变量，达到动态设定布局的效果。
+
+3.
+设置可以滑动的动态列表，
+预测9天的天气
+
+//WXML 中
+<view class='forecast-list'>
+    <view class="forecast-item" wx:for="{{[1,2,3,4,5]}}">{{item}}</view>
+</view>
+
+//WXSS 中
+.forecast-list {
+    display:flex;
+}
+
+.forecast-item {
+    display:flex;
+}
+
+关于flex
+https://developer.mozilla.org/zh-CN/docs/Web/CSS/flex
+这个比官方文档讲的更清楚
+https://www.cnblogs.com/xuyuntao/articles/6391728.html
+阮一峰
+http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html
+http://www.ruanyifeng.com/blog/2015/07/flex-examples.html
+CSS tricks（很好）
+https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+
+The main idea behind the flex layout is to give the container the ability to alter its items' width/height (and order) to best fill the available space (mostly to accommodate to all kind of display devices and screen sizes). A flex container expands items to fill available free space, or shrinks them to prevent overflow.
+flex布局，主要是为了让容器里的items，能够根据需求灵活合理的利用容器空间，以适应不同的宽度的设备。
+
+Most importantly, the flexbox layout is direction-agnostic as opposed to the regular layouts (block which is vertically-based and inline which is horizontally-based). While those work well for pages, they lack flexibility (no pun intended) to support large or complex applications (especially when it comes to orientation changing, resizing, stretching, shrinking, etc.).传统网页的常规布局是垂直布局，或者水平布局。但是对复杂的移动端应用来说，经常遇到方向改变，大小改变，缩放等的问题，传统的布局就缺乏一定的灵活性。
+
+Flexbox layout is most appropriate to the components of an application, and small-scale layouts, while the Grid layout is intended for larger scale layouts.Flex布局适合应用的组件，小规模的布局。而栅格布局更适合大规模的布局。
+
+
+4.
+生成了新的公钥，passphrase sry2014@A
+存在miraclehappen.pub
+
+之前在自己的GitHub账号配置过本地电脑的ssh key，然后用同样的ssh key给另外一个GitHub账号配置密钥，发现报如下错误，key already in use.
+其实这个问题的原因很简单，主要是GitHub账号和服务器通信的ssh密钥对是一一对应的，不允许多个账号使用同样的密钥对，否则会出现歧义，需要为每个账号配置不同的密钥对。
+
+一台电脑绑定多个账号
+https://www.jianshu.com/p/3fc93c16ad2d
+
+1.注册了新的github账号，邮箱是reallfejasm@gmail.com,用户名是MiracleHappen.
+  旧的github用户名是JasmSong2018.
+2.生成新的公钥，miraclehappen.pub，并且添加到了新的github账号下。
+3.添加ssh/config文件，内容是
+ # default                                                                       
+Host github.com
+HostName github.com
+User git
+IdentityFile ~/.ssh/id_rsa
+# two                                                                           
+Host ruoyun.github.com
+HostName github.com
+User git
+IdentityFile ~/.ssh/miraclehappen
+
+4.测试ssh连接，成功了。
+ssh -T git@ruoyun.github.com
+
+# Hi MiracleHappen! You've successfully authenticated, but GitHub does not provide shell access.
+5.取消全局 用户名/邮箱设置，并进入已经克隆岛本地的git库路径里单独设置
+# 取消全局 用户名/邮箱 配置
+git config –global –unset user.name
+git config –global –unset user.email
+# 单独设置每个repo 用户名/邮箱
+git config user.email “reallifejasm@gmail.com”
+git config user.name “ruoyunForMiracleHappen”
+
+6.命令行进入项目目录，重建 origin (whatever 为相应项目地址)
+git remote rm origin
+git remote add origin git@ruoyun.github.com:MiracleHappen/LuckyMoneyVocabulary.git
+
+7.git push origin master
+成功。
+但是github上显示是JasmSong2018提交的commit。
+//这个问题得到解决了，那是因为修改文件时，还没有执行以上1-7的操作。
+而后续的git本地库的修改，Push后显示是新账号MiracleHappen进行。
+
+
+
+
+
+
+
