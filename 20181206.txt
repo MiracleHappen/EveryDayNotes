@@ -55,5 +55,16 @@ cmd + f ,paste in place，有什么区别？
 按下shift + arrowkey >可以移动选中物体，一下使10Px
 选中物体，直接用arrow key也可以移动，就是步长要小很多，一次是1px.
 
-  
+ 13.
+git clone到本地之后，会默认生成Origin，不必再手动的git remote add origin了。
+
+git remote -v查看
+git remote rm origin去掉之前的。
+git remote add origin2，可以针对另外一份保存的远程库。
+
+github默认去找rsa公钥。自己命名的公钥，每一个新的本地repo，要将remote origin匹配git@myName.github.com/库地址。
+自己的公钥不要设置密码，就可以避免每次push/pull被问到密码。
+
+详情参见20181205.
+
   

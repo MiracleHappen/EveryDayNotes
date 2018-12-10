@@ -1,0 +1,278 @@
+20181209
+
+1.对界面、布局的修改将会贯穿整个小程序的开发流程，因此它们也是小程序开发的核心技能之一。学习这些内容的最好方法，就是通过实际的需求，不断的摸索与练习。
+
+2.
+//申明 hourlyWeather
+data: {
+    hourlyWeather:[]
+}
+
+//构建 hourlyWeather
+for(...){
+    hourlyWeather.push(....)
+}
+
+//赋值 hourlyWeather
+this.setData{(
+     hourlyWeather
+)}
+...
+
+
+3.第三第四课内容总结：
+
+生命周期onLoad()函数
+带参数的URL
+json的格式和解析
+wx.request接口
+Mustache语法
+动态设置导航栏颜色
+回调函数
+
+列表渲染：wx:for
+滑动容器
+wxml面板调试
+时间对象
+
+4.项目进行到目前代码
+
+
+--------------------index.wxml
+<view class="weather-wrapper">
+  <view class="temp">{{nowTemp}}</view>
+  <view class="weather">{{nowWeather}}</view>
+  <image class="weather-bg" src="{{nowWeatherBackground}}" mode="scaleToFill"></image>
+</view>
+
+<view class="timetips">
+  <image class="timetips-icon" src="/images/time-icon.png"></image>
+  <view class="timetips-text">未来24小时天气预测</view>
+ </view>
+
+<scroll-view scroll-x>
+  <view class='forecast-list'>
+    <view class="forecast-item" wx:for="{{hourlyWeather}}">
+      <view class= 'forecast-time'>{{item.time}}</view>
+      <image class= 'forecast-weather'
+             src='{{item.iconPath}}'>
+      </image>
+      <view class= 'forecast-temp'>{{item.temp}}</view>
+    </view>
+  </view>
+</scroll-view>
+
+---------------------index.wxss
+
+/*width 750rpx, height 760rpx
+760=174+280+56+250*/
+.weather-wrapper{
+  position: relative;
+  padding-top: 174rpx;
+  padding-bottom: 250rpx;
+}
+
+.temp {
+  text-align:center;
+  font-size:200rpx;
+  line-height:280rpx;
+  opacity:0.8;
+}
+
+.weather {
+  text-align: center;
+  font-size: 40rpx;
+  line-height: 56rpx;
+  opacity: 0.65;
+}
+
+.weather-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.timetips {
+  display: flex;    //flex布局在移动端非常重要
+  justify-content: center;
+  align-items: center;
+  margin-top: 40rpx;
+  margin-bottom: 45rpx;
+}
+
+.timetips-icon {
+  margin-right: 10rpx;
+  width: 36rpx;
+  height: 28rpx;
+}
+
+.timetips-text {
+  font-size: 30rpx;
+  line-height: 42rpx;
+  opacity: 0.5;
+}
+
+.forecast-list {   //flex布局
+    display:flex
+}
+
+.forecast-item {  //flex布局
+    display:flex;
+    width: 120rpx;
+    flex-shrink: 0;
+    flex-direction:column;
+    align-items:center;
+}
+
+.forecast-time {
+  font-size: 30rpx;
+  line-height: 42rpx;
+}
+
+.forecast-weather {
+  margin-top: 50rpx;
+  margin-bottom: 50rpx;
+  width: 60rpx;
+  height: 60rpx;
+}
+
+.forecast-temp {
+  font-size: 40rpx;
+  line-height: 56rpx
+}
+
+
+-----------------index.js
+
+const weatherMap = {
+  'sunny': '晴天',
+  'cloudy': '多云',
+  'overcast': '阴',
+  'lightrain': '小雨',
+  'heavyrain': '大雨',
+  'snow': '雪'
+}
+
+const weatherColorMap = {
+  'sunny': '#cbeefd',
+  'cloudy': '#deeef6',
+  'overcast': '#c6ced2',
+  'lightrain': '#bdd5e1',
+  'heavyrain': '#c5ccd0',
+  'snow': '#aae1fc'
+}
+
+Page({
+  data: {       //生命要用到的数据，有点像java类里的member data.
+    nowTemp: '',
+    nowWeather: '',
+    nowWeatherBackground: "",
+    hourlyWeather: []
+  },
+  onLoad() {
+    this.getNow()
+  },
+  onPullDownRefresh(){    //这里挺巧妙的，唯一的区别是给getNow传入了一个回调函数，该函数会在getNow完成后获得执行。这里，刚好getNow函数的完成，就是wx.request请求的完成。所以把回调函数写在complete里。
+    this.getNow(() => {
+      wx.stopPullDownRefresh()
+    })
+  },
+  getNow(callback){
+    wx.request({
+      url: 'https://test-miniprogram.com/api/weather/now',
+      data: {
+        city: '广州市'
+      },
+      success: res => {
+        let result = res.data.result
+        this.setNow(result)
+        this.setHourlyWeather(result)
+      },
+      complete: () =>{
+        callback && callback()
+      }
+    })
+  },
+  setNow(result){           //获取现在天气的数据
+    let temp = result.now.temp
+    let weather = result.now.weather
+    this.setData({
+      nowTemp: temp + '°',
+      nowWeather: weatherMap[weather],
+      nowWeatherBackground: '/images/' + weather + '-bg.png'
+    })
+    wx.setNavigationBarColor({
+      frontColor: '#000000',
+      backgroundColor: weatherColorMap[weather],
+    })
+  },
+  setHourlyWeather(result){   //获取预测的小时天气数据
+    let forecast = result.forecast
+    let hourlyWeather = []
+    let nowHour = new Date().getHours()
+    for (let i = 0; i < 8; i += 1) {
+      hourlyWeather.push({
+        time: (i*3 + nowHour) % 24 + "时",
+        iconPath: '/images/' + forecast[i].weather + '-icon.png',
+        temp: forecast[i].temp + '°'
+      })
+    }
+    hourlyWeather[0].time = '现在'
+    this.setData({
+      hourlyWeather: hourlyWeather
+    })
+  }
+})
+
+
+
+API：/api/weather/now
+{"code":200,"message":"success","result":{"now":{"temp":-1,"weather":"lightrain"},"today":{"minTemp":-1,"maxTemp":8},"forecast":[{"weather":"lightrain","temp":-1,"id":0},{"weather":"sunny","temp":15,"id":1},{"weather":"snow","temp":-9,"id":2},{"weather":"cloudy","temp":7,"id":3},{"weather":"overcast","temp":5,"id":4},{"weather":"lightrain","temp":9,"id":5},{"weather":"snow","temp":-8,"id":6},{"weather":"lightrain","temp":4,"id":7}]}}
+
+
+5.
+进入第五课。
+
+<view class = "day-weather bindtap = "onTapDayWeather">
+...    
+</view>
+
+bindtap是wxml内置的事件属性，相当于onclick。
+
+---
+以下哪些代码是异步调用的？（答案是全部）
+
+所有生命周期函数
+
+所有手势响应函数
+
+所有函数类型的参数
+
+---
+setData 是同步还是异步？
+回顾一下 setData 的官方文档
+
+Page.prototype.setData()
+
+setData 函数用于将数据从逻辑层发送到视图层（异步），同时改变对应的 this.data 的值（同步）。
+
+----
+老师说，对于那些不知道何时会发生的函数，就是异步。
+刚开始，是可以这么理解。
+
+
+6.
+新页面跳转
+
+在开发工具中新建页面，会同时产生四个文件。为了保持现在的项目结构，即页面文件 index.js, index.wxss, index.wxml在页面文件夹index中，因此我先新建了文件夹 list， 然后在文件夹 list 中新建页面，产生四个新的文件 list.js, list.wxss, list.wxml, list.json。之前我们并没有接触过页面的 json 文件，只在 app.json 中对导航栏背景颜色进行过调整。 其实本质上是一样的，只是页面的配置文件，暂时我们也不会用到它。
+
+wx.navigateTo({
+    url: '/pages/list/list'
+})
+
+
+
+
