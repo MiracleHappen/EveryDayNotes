@@ -1,0 +1,37 @@
+20181210
+
+1.用PHOTOSHOP制作LOGO.
+LOW POLY的类型。
+
+2.导入图片，打开格网。
+
+在view里点snap, rulers.
+然后在preferences里，找到Guide, Grid&Slices，选择Grid的大小。这里是20px，一个subdivision.
+
+3.cmd+ J在layers里复制原图。
+
+4.
+按下空格键，可以拖动移动图片。
+按下z,在用鼠标可以放大一片选定的区域。
+
+5.
+工具栏第三个Lasso polygon tool.
+点击上方的Anti-alias。
+
+画三角。
+cmd + d是取消所选的三角。
+Delete:取消上一个点。
+cmd +option + f是重复上一个三角的filter.
+
+Filter - Blur - Average
+
+spance + cmd   打开zoom光标。
+按下空格，会出现手型光标，此时可以移动图片。
+
+---------------
+
+
+还是使用illustrator来做。
+
+https://www.youtube.com/watch?v=z2XNyYngbNk&t=493s
+
