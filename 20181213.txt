@@ -1,0 +1,99 @@
+20181213
+
+1.Udacity商城小程序基本功能：
+
+  查看首页和商品详情页。
+
+  添加商品至购物车。
+
+   用户登录。
+
+   历史订单查询。
+   
+   商品购买。
+   
+   添加评论。
+   
+2.
+复习
+列表渲染官方文档
+
+https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/list.html
+
+
+
+
+https://www.youtube.com/watch?v=4u8Ox45mxFQ虎哥课堂的内容：
+wx:for 表示要循环的对象
+wx:for-index 作用是命名每次循环的索引 
+        可以自己定义，默认是index
+wx:for-item 命名每次循环的项
+        可以自己定义，默认是item
+        
+        
+        
+--------------.js文件，初始化数据
+
+Page({
+    data:{
+        students:[
+            {
+                id:"001",
+                name:"jack",
+                age:20
+            },
+            {
+                id:"002",
+                name:"rose",
+                age:21
+            }
+        ]
+    }
+})
+
+---------------.wxml中的页面
+<view wx:for = "{{students}}" wx:for-index="index" wx:for-item="item">   //这里index,item都是默认值，可以自己命名的。
+     <view>编号：{{item.id}},姓名：{{item.name}},年龄：{{item.age}} </view>
+</view>
+
+最外层的两个<view>可以用<block>代替
+
+
+---------------列表循环可以嵌套
+
+<view wx:for="{{[1,2,3,4,5,6,7,8,9]}" wx:for-item="i" wx:for-item="j"}
+    <view wx:for="{{[1,2,3,4,5,6,7,8,9]}}" wx:for-item="j">
+        <view wx:if="{{i <= j}}">
+            {{i}} * {{j}} = {{ i * j}}
+        </view>
+    </view>
+</view>
+
+注意事项：
+
+当wx:for的值为字符串时，会将字符串解析为字符串数组。
+花括号和引号之间如果有空格，空格将最终被解析成字符串。
+
+
+3.练习flex布局的一个网站
+http://flexboxfroggy.com/
+特别有趣，有用的一个练习网站。包括flex布局和grid布局。
+
+You can use align-content to set how multiple lines are spaced apart from each other. This property takes the following values:
+
+flex-start: Lines are packed at the top of the container.
+flex-end: Lines are packed at the bottom of the container.
+center: Lines are packed at the vertical center of the container.
+space-between: Lines display with equal spacing between them.
+space-around: Lines display with equal spacing around them.
+stretch: Lines are stretched to fit the container.
+This can be confusing, but align-content determines the spacing between lines, while align-items determines how the items as a whole are aligned within the container. When there is only one line, align-content has no effect.
+
+display: flex 可以让其内部的元素基于外部框大小来自适应移动（flexible），它可以帮助你设计更加自适应的响应式布局。如果你想练习更多 flex 技巧，可以尝试一下 这个网站 。
+
+
+
+
+
+
+
