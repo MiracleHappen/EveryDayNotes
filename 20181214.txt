@@ -1,0 +1,48 @@
+20181214
+
+1.关联了微信公众号平台的账号和腾讯云的账号。
+
+腾讯云：
+账号昵称	
+Sensensibility  (使用微信注册，绑定了8578003346)
+
+账号ID 
+
+100000744240
+
+APPID 
+
+1258299504
+
+QQ	
+无 关联
+
+微信(注册方式)	
+Sensensibility
+
+邮箱	
+无 关联
+
+微信公众平台	
+gh_0999a8d44d87 (绑定的是jasmsong@gmail.com的微信公众平台账号)
+
+
+https://console.qcloud.com/lav2/dev腾讯云对微信小程序的部署页面：开发环境-生产环境-微信公众平台
+
+
+
+2.
+做了上述工作后，在微信开发者工具里，选择node.js快速启动模板。
+模板分为client和server两个大的部分。
+
+首先关注client部分。
+因为商城小程序，有四个页面，分别是home,order,trolley, user.
+创建页面的方法，是在app.json 的Pages里中删除原有的模板页面，在添加这四个页面的路径：
+"pages/home/home",
+"pages/order/order",
+"pages/trolley/trolley",
+"pages/user/user"
+
+3.
+小程序全局配置，和页面配置的官方文档：
+https://developers.weixin.qq.com/miniprogram/dev/framework/config.html
