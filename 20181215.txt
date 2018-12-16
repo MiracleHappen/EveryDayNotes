@@ -1,0 +1,261 @@
+20181215
+
+1.
+
+我们将从模版程序开始开发～我们新建的模板程序，包含了许多我们之后要用到的服务器端的功能，因而通过修改模板程序进行开发，可以大大加快我们的开发速度。不过你应该已经注意到，模板程序与我们的商城小程序相差甚远，因而我们需要对它进行一定的修改，使它成为我们后续开发商城小程序的模板。在这个步骤，我们主要关注 client 目录下的内容。
+
+新建页面：
+app.json中的Pages项里添加路径：如
+"pages/home/home",
+"pages/order/order",
+"pages/trolley/trolley",
+"pages/user/user"
+
+2.
+给每个页面添加标题栏。
+home.json中：{"navigationBarTitleText":"商城主页"}
+
+3.tabBar :
+
+微信全局配置官网介绍：
+https://developers.weixin.qq.com/miniprogram/dev/framework/config.html
+
+全局配置示例：
+小程序根目录下的 app.json 文件用来对微信小程序进行全局配置，决定页面文件的路径、窗口表现、设置网络超时时间、设置多 tab 等。
+以下是一个包含了部分常用配置选项的 app.json ：
+
+{
+  "pages": ["pages/index/index", "pages/logs/index"],
+  "window": {
+    "navigationBarTitleText": "Demo"
+  },
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/logs/logs",
+        "text": "日志"
+      }
+    ]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "debug": true,
+  "navigateToMiniProgramAppIdList": ["wxe5f52902cf4de896"]
+}
+
+
+如果小程序是一个多 tab 应用（客户端窗口的底部或顶部有 tab 栏可以切换页面），可以通过 tabBar 配置项指定 tab 栏的表现，以及 tab 切换时显示的对应页面。
+
+完成后的app.json
+{
+  "pages":[
+   "pages/home/home",
+   "pages/order/order",
+   "pages/trolley/trolley",
+   "pages/user/user"
+  ],
+  "tabBar": {
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath":"images/home.png",
+        "selectedIconPath":"images/home-sel.png"
+      },
+      {
+        "pagePath": "pages/order/order",
+        "text": "订单",
+        "iconPath": "images/order.png",
+        "selectedIconPath": "images/order-sel.png"
+      },
+      {
+        "pagePath": "pages/trolley/trolley",
+        "text": "购物车",
+        "iconPath": "images/trolley.png",
+        "selectedIconPath": "images/trolley-sel.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "个人",
+        "iconPath": "images/user.png",
+        "selectedIconPath": "images/user-sel.png"
+      }
+    ]
+  },
+  "window":{
+    "backgroundColor":"#F6F6F6",
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#F6F6F6",
+    "navigationBarTitleText": "Wafer Quick Start",
+    "navigationBarTextStyle":"black"
+  }
+}
+
+4.
+在开始开发前，我们有必要明确一下开发过程中的工作流，来为我们的整个开发过程进行指导。一般的，我们的开发工作流包括：
+
+得到设计师的设计方案
+思考可行性，分析涉及到的数据存储、传送问题，优化设计方案
+实现页面的静态前端布局及界面原型
+配置服务器，建立数据库、写API接口，并对接口进行单元测试
+修改页面代码，使之调用API从服务端请求数据并完成界面展示
+
+写任务清单是一个好习惯:
+搭建静态页面
+焦点图和分割栏
+商品栏（Hard Code 实现）
+商品栏（循环实现）
+配置服务器和搭建数据库
+服务器配置
+图片上传和数据库初始化
+设计 API 接口
+路由
+控制器
+API 数据请求和呈现
+API 请求数据
+搭建商品详情页面
+静态页面构建
+API 请求完成数据更新
+
+5.
+关于Position以及其他CSS知识的一个很不错的网站
+http://zh.learnlayout.com/position.html
+
+6.
+构建第一个页面：home
+先到home.js中添加data:
+productList: [{
+     id: 1,
+     image: 'https://s3.cn-north-1.amazonaws.com.cn/u-img/product1.jpg',
+     name: '商品1',
+     price: 100,
+     source: '国内·广东',
+   }, {
+     id: 2,
+     image: 'https://s3.cn-north-1.amazonaws.com.cn/u-img/product2.jpg',
+     name: '商品2',
+     price: 200,
+     source: '国内·广东',
+   }, {
+     id: 3,
+     image: 'https://s3.cn-north-1.amazonaws.com.cn/u-img/product3.jpg',
+     name: '商品3',
+     price: 300,
+     source: '国内·广东',
+   }, {
+     id: 4,
+     image: 'https://s3.cn-north-1.amazonaws.com.cn/u-img/product4.jpg',
+     name: '商品4',
+     price: 400,
+     source: '国内·广东',
+   }, {
+     id: 5,
+     image: 'https://s3.cn-north-1.amazonaws.com.cn/u-img/product5.jpg',
+     name: '商品5',
+     price: 500,
+     source: '国内·广东',
+   }], // 商品列表
+   是一个对象的数组
+   
+   
+   -----
+   <!--pages/home/home.wxml-->
+<image src='/images/bg.png' class='bg'></image>
+<view class='hot-card'>
+  <view class='hot-name'>
+    <image class='hot-name-line' src='/images/line-red.png'></image>
+    <view class='hot-name-text'>{{productList[0].name}}</view>
+    <image class='hot-name-line' src='/images/line-red.png'></image>
+  </view>
+  <image class='hot-info' src='/images/discount.png'></image>
+  <image class='hot-image' src='{{productList[0].image}}'></image>
+</view>
+
+<view class='list-title'>
+  <image class='list-title-line' src='/images/line-black.png'></image>
+  <view class='list-title-text'>春季推荐</view>
+  <image class='list-title-line' src='/images/line-black.png'></image>
+</view>
+-----布局包括背景图片，hot-card，list-title。
+hot-card又包括hot-name, 两张图片hot-info（促销图片）,hot-image（商品图片）；
+hot-name包括两张红色斜杠图片，以及商品名称。
+list-title包括两张黑色斜杠图片，以及文字“春季推荐”。
+
+-------------------------
+hot-card {
+  position: relative;
+  margin: 32rpx 52rpx 0;
+  height: 326rpx;
+  background: rgb(202, 68, 68);
+  box-shadow: 0 2rpx 13rpx 5rpx rgba(0, 0, 0, 0.02);
+  border-radius: 13rpx;
+}
+ .hot-name {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  left: 44rpx;
+  top: 41rpx;
+  width: 300rpx;
+}
+ .hot-name-line {
+  width: 24rpx;
+  height: 39rpx;
+}
+ .hot-name-text {
+  margin: 0 20rpx;
+  font-size: 28rpx;
+  color: #34373D;
+  font-weight: bold;
+}
+ .hot-info {
+  position: absolute;
+  width: 259rpx;
+  height: 188rpx;
+  left: 42rpx; 
+  bottom: 0;
+}
+ .hot-image {
+  position: absolute;
+  top: 53rpx;
+  right: 47rpx;
+  width: 241rpx;
+  height: 241rpx;
+}
+ .list-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 90rpx 0 35rpx;
+}
+ .list-title-line {
+  width: 21rpx;
+  height: 34rpx;
+}
+ .list-title-text {
+  margin: 0 20rpx;
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+------------
+为了确保界面效果与视频一致，除了根据上述链接变更项目代码外，还需要将 app.wxss 文件中的样式替换为：
+
+page {
+  background: #f9f9f9;
+}
+
+.bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 144rpx;
+  z-index: -1;
+}
