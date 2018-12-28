@@ -1,0 +1,400 @@
+20181228
+
+
+1.继续复习优达学城小程序课程一。第三节：获取网络数据。
+
+
+每一个页面下的index.js里：
+
+Page({
+  onLoad() {
+    console.log("Hello World!")
+  } 
+})
+
+-----------------------
+
+直接在小程序中使用该 API 可能会出现 test-miniprogram.com 不是合法域名 的报错信息，你可以在微信开发者工具中关闭检验：点击右上角 详情 ，在 项目设置 中选择不校验。
+
+-----------------------
+
+URL（统一资源定位符）是 URI（通用资源标识）的特定类型。
+
+URL 通常由以下三或四个组成部分组成，第四部分可省略：
+
+协议。它可以是 HTTP（不带 SSL）或 HTTPS（带 SSL）。
+主机。例如：cn.udacity.com。
+路径。例如：/course/wechat-mini-program--nd666-cn-1。
+查询字符串。规则为?后显示参数查询值，伪 url 为：?param1=value1&param2=value2。
+综上，url 的书写规则为：http:/path/path/path?param1=value1&param2=value2
+
+---------------------------
+
+SSL(Secure Sockets Layer 安全套接层),及其继任者传输层安全（Transport Layer Security，TLS）是为网络通信提供安全及数据完整性的一种安全协议。
+
+--------------------------
+
+json数据扁平化
+https://codebeautify.org/jsonviewer
+
+-------------------------
+
+wx.request({
+  url: 'https://test-miniprogram.com/api/weather/now', 
+  data: {
+     city: '广州市' 
+  },
+  success: res => {
+    console.log(res)
+  }
+})
+
+wx.request首先接收的是一个json数据，其中data是api查询参数，
+sucess，接收一个匿名函数。 从 x => {f(x)的结果} 的映射函数。
+
+
+------------------------------
+
+获取返回数据 res 并在 console 中打印后，我们可以逐层展开数据res。看到气温可以由 res.data.result.now.temp 获得，而天气可以由 res.data.result.now.weather 获得。wx.request 保证了 API 返回的所有数据都存储在 res.data 中, 而天气 API 将数据存储在返回数据的 result 中。因此我用下面的代码将气温和天气从返回数据中提取并打印出来。
+
+数据是根据json，一层一层打开的。
+返回的整个数据对象，就是res.data，再逐层去找自己所需的数据。
+--------------------------------
+
+怎么把取回来的数据，绑定到页面中？
+数据绑定官方文档：https://developers.weixin.qq.com/miniprogram/dev/framework/view/wxml/data.html
+
+WXML 中的动态数据均来自对应 Page 的 data。
+
+//在 WXML 中
+<view class="temp">{{nowTemp}}</view>
+<view class="weather">{{nowWeather}}</view>
+
+//在 Page 中
+data: {
+  nowTemp: '14°',
+  nowWeather: '阴天'
+}
+
+----------------------------------
+
+index.js
+
+const weatherMap = {
+  'sunny': '晴天',
+  'cloudy': '多云',
+  'overcast': '阴',
+  'lightrain': '小雨',
+  'heavyrain': '大雨',
+  'snow': '雪'
+}
+
+Page({
+  data: {
+    nowTemp: '',
+    nowWeather: ''
+  },
+  onLoad() {
+    wx.request({
+      url: 'https://test-miniprogram.com/api/weather/now',
+      data: {
+        city: '广州市'
+      },
+      success: res => {
+        let result = res.data.result
+        let temp = result.now.temp
+        let weather = result.now.weather
+        this.setData({
+          nowTemp: temp + '°',
+          nowWeather: weatherMap[weather]      //nowTemp, nowWeather是页面中被绑定的变量
+                                            //把网络取回的数据，经过适当的处理，交给被绑定的变量进行显示
+     })
+      }
+    })
+  }
+})
+ 
+
+  ----------
+  
+  index.wxhl
+  <view class="weather-wrapper">
+  <view class="temp">{{nowTemp}}</view>
+  <view class="weather">{{nowWeather}}</view>
+  <image class="weather-bg" src="/images/sunny-bg.png" mode="scaleToFill"></image>
+</view>
+
+-------------
+
+阅读 setData() 的官方文档我们看到
+
+setData 函数用于将数据从逻辑层发送到视图层（异步），同时改变对应的 this.data 的值（同步）。
+
+注意：1. 直接修改 this.data 而不调用 this.setData 是无法改变页面的状态的，还会造成数据不一致。
+
+这里逻辑层就是指 js 代码，视图层就是指 wxml 和 wxss 代码。setData() 会首先更新 this.data 的值，然后使用新的 this.data 数据来渲染页面。setData() 会在改变 this.data() 后直接返回，而不会等待渲染结束后再返回。如果你对这里的同步异步还不是特别的了解，也没有关系，我们会慢慢接触到更多更多的异步调用的。另一个重要的事情是，我们需要调用 this.setData 函数来更新 Data 中的数据而不是去直接修改 this.data 。文档专门用加黑的字体告诉我们不要这么做。
+
+------------------------
+
+
+
+ 
+ 添加图片后，我会在 data 中定义了新的动态变量，在 WXML 中引用它，并在获得了天气数据后，对这个变量进行了赋值。
+
+// in Page
+data{
+    nowWeatherBackground: ""   -------声明会动态变化的量，也就是绑定在页面中的量。
+}
+
+// in success: res=>{...}
+this.setData({
+    nowWeatherBackground: '/images/' + weather + '-bg.png'--------- 用setData() 修改它。
+})
+
+// in WXML
+<image class="weather-bg" src="{{nowWeatherBackground}}" mode="scaleToFill"></image>    -----在视图中的绑定 
+
+-----------------------
+
+
+
+success: res => {
+        let result = res.data.result
+        let temp = result.now.temp
+        let weather = result.now.weather
+        this.setData({                 ------------------——()里也是接收一个object.
+          nowTemp: temp + '°',
+          nowWeather: weatherMap[weather],
+          nowWeatherBackground: '/images/' + weather + '-bg.png'
+        })
+        wx.setNavigationBarColor({ -----------------------wx.setNavigationBarColor（接收一个OBJECT）
+          frontColor: '#000000',
+          backgroundColor: weatherColorMap[weather],
+        })
+      }
+
+------------------------
+先要
+配置开启下拉刷新
+我们在文档中看到，
+
+需要在 config 的window选项中开启 enablePullDownRefresh。
+
+我们在 app.json 的 window 中添加配置
+
+"window":{
+    "enablePullDownRefresh": true，
+    “backgroundTextStyle":"dark"   ----才会在下拉时出现点点点
+    
+    
+}
+
+然后，写一个和onLoad(){} 并行的函数 ，onPullDownRefresh()
+
+然后在wx.request的complete回调中，写上wx.stopPullDownRefresh()
+
+
+目前的代码：
+
+const weatherMap = {
+  'sunny': '晴天',
+  'cloudy': '多云',
+  'overcast': '阴',
+  'lightrain': '小雨',
+  'heavyrain': '大雨',
+  'snow': '雪'
+}
+
+const weatherColorMap = {
+  'sunny': '#cbeefd',
+  'cloudy': '#deeef6',
+  'overcast': '#c6ced2',
+  'lightrain': '#bdd5e1',
+  'heavyrain': '#c5ccd0',
+  'snow': '#aae1fc'
+}
+
+Page({         -----------Page(Object)接收一个对象，有data,有生命周期函数如onLoad(),有自定义函数如getNow(){}
+  data: {
+    nowTemp: '',
+    nowWeather: '',
+    nowWeatherBackground: ""
+  },
+  onLoad() {        --------onLoad() 是函数做参数
+    this.getNow()   -----调用一个Page里的其他函数，this.函数（）
+  },
+  onPullDownRefresh(){
+    this.getNow(() => {     -----不含参数的匿名函数的写法
+      wx.stopPullDownRefresh()
+    })
+  },
+  getNow(callback){
+    wx.request({
+      url: 'https://test-miniprogram.com/api/weather/now',
+      data: {
+        city: '广州市'
+      },
+      success: res => {
+        let result = res.data.result
+        let temp = result.now.temp
+        let weather = result.now.weather
+        this.setData({          -----------动态修改视图页面绑定的几个数据
+          nowTemp: temp + '°',
+          nowWeather: weatherMap[weather],
+          nowWeatherBackground: '/images/' + weather + '-bg.png'
+        })
+        wx.setNavigationBarColor({   --------动态修改导航栏颜色
+          frontColor: '#000000',
+          backgroundColor: weatherColorMap[weather],
+        })
+      },
+      complete: () =>{
+        callback && callback()      -----这是一个值得学习的聪明的高级的写法。深刻理解函数。函数就像一个可以定制的框架.    通过改变参数()，和函数体{}，同时参数还可以是函数。可以说，达到多种多样的变化。
+      }
+    })
+  }
+})
+
+
+2.继续复习优达学城小程序课程一。第四节：构建列表。
+
+下面的五个视图
+
+<view> 1 </view>
+<view> 2 </view>
+<view> 3 </view>
+<view> 4 </view>
+<view> 5 </view>
+可以通过 wx:for 列表渲染方式，一行代码完成定义。
+
+<view wx:for="{{[1,2,3,4,5]}}">{{item}}</view>   -----循环列表[], {{}} 表示不是字符串，而是取表达式的值。
+
+-------------------------------------
+首先我将所有列表项放在了一个容器中，并给列表项和容器都设置了样式，使得所有列表项横向放置。（容器设置为flex布局后，里面的项会自动横向放置。）
+
+//WXML 中
+<view class='forecast-list'>
+    <view class="forecast-item" wx:for="{{[1,2,3,4,5]}}">{{item}}</view>
+</view>
+
+//WXSS 中
+.forecast-list {
+    display:flex;
+}
+
+.forecast-item {
+    display:flex;
+}
+同时我给 forecast-item 加上了固定宽度，字号，行高等属性。 并调整了标题栏到列表的距离。
+
+接着，我在 forecast-list 外层再套了一个 scroll-view, 并设置 x-scroll 的属性，使得列表可以横向滑动。
+
+<scroll-view scroll-x>
+    <view class='forecast-list'>
+         <view class="forecast-item" wx:for="{{[1,2,3,4,5]}}">{{item}}</view>
+    </view>
+</scroll-view>
+最后我将[1,2,3,4,5] 替换成了动态变量，相信这难不倒你。
+
+----------------------
+
+构建列表
+在success里：
+
+//set forecast
+        let forecast = []   -----forecast 被构建成一个对象列表，对象含有time,icoPath,temp三个key
+        let nowHour = new Date().getHours()
+        for (let i = 0; i < 24; i += 3) {
+          forecast.push({
+            time: (i + nowHour) % 24 + "时",
+            iconPath: '/images/sunny-icon.png',
+            temp: "12°"
+          })
+        }
+        forecast[0].time = '现在'
+        this.setData({
+          forecast:forecast
+        })
+        
+
+<scroll-view scroll-x>
+  <view class='forecast-list'>
+    <view class="forecast-item" wx:for="{{forecast}}">
+      <view class= 'forecast-time'>{{item.time}}</view>
+      <image class= 'forecast-weather'
+             src='{{item.iconPath}}'>
+      </image>
+      <view class= 'forecast-temp'>{{item.temp}}</view>
+    </view>
+  </view>
+</scroll-view>
+
+--------------
+
+网络数据，取回，动态显示
+
+//申明 hourlyWeather
+data: {
+    hourlyWeather:[]
+}
+
+//构建 hourlyWeather
+for(...){
+    hourlyWeather.push(....)
+}
+
+//赋值 hourlyWeather
+this.setData{(
+     hourlyWeather
+)}
+...
+
+----------------------
+
+我们已经完成了列表的构建，并展示了网络数据，往往这是一个好的时候还回顾一下我们的代码，来完成一些代码重构。
+
+首先我发现现在在循环中，i 分别为 0,3,6,9,12,15,18,21 而在使用 i 的时候，则分别使用 i, i/3, i/3. 这总是有些不方便。因此我调整为 i 分别为 0,1,2,3,4,5,6,7, 而在使用 i 的时候，分别使用 i*3, i, i 我觉得这样更容易看出循环体会执行八次，同时我们的时间间隔为 3 小时。乘法也比除法更容易把握。你觉得呢？
+
+接着我发现我的 wx.request 中，success 的回调函数实在是太长了。这个回调函数主要做了两件事，设置当前天气，设置未来24小时的天气，与其加上 //set now //set hourly weather的注释，我更倾向于把这两段分别定义成函数，直接在 success 的回调函数中调用。
+
+success: res=>{
+    let result = res.data.result
+    this.setNow(result)
+    this.setHourlyWeather(result)   
+}
+
+
+
+这个两个函数直接写在Page{}中，与onLoad()平级：
+setNow(result){
+    let temp = result.now.temp
+    let weather = result.now.weather
+    this.setData({
+      nowTemp: temp + '°',
+      nowWeather: weatherMap[weather],
+      nowWeatherBackground: '/images/' + weather + '-bg.png'
+    })
+    wx.setNavigationBarColor({
+      frontColor: '#000000',
+      backgroundColor: weatherColorMap[weather],
+    })
+  },
+  setHourlyWeather(result){
+    let forecast = result.forecast
+    let hourlyWeather = []
+    let nowHour = new Date().getHours()
+    for (let i = 0; i < 8; i += 1) {
+      hourlyWeather.push({
+        time: (i*3 + nowHour) % 24 + "时",
+        iconPath: '/images/' + forecast[i].weather + '-icon.png',
+        temp: forecast[i].temp + '°'
+      })
+    }
+    hourlyWeather[0].time = '现在'
+    this.setData({
+      hourlyWeather: hourlyWeather
+    })
+  }
+
+----------------------
+下面的内容：官方文档的：注册页面， 数据 绑定，列表渲染，条件渲染。
