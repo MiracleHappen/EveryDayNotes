@@ -1,0 +1,124 @@
+20181227 用Pen tool画锦鲤，复习优达学城的小程序开发课。
+
+1.adobe illustrator 
+
+pen tool 
+
+拖动，就是画曲线，不拖动就是画直线。按住cmd，修改画曲线时的那个辅助点。
+
+2.制作patten swatch
+
+https://www.youtube.com/watch?v=ITRZ75OKrG0
+https://www.youtube.com/watch?v=ITRZ75OKrG0
+我遇到的坑就是，如果有stroke，需要object - expand勾选stroke,fill，否则无法使用pathfinder里的crop。
+
+
+save and reuse self-defined swatches.
+所存的swatch需要保存，并引入新的文件，从User defined 中引入，才能跨文件使用。
+https://www.youtube.com/watch?v=6yOkTXciJjQ
+
+3.
+问题：背景原图2500Px 乘以2500px，原图比容器大。为了适应各个尺寸的手机 以及Ipad,且图片不会被随意的拉伸，
+在wxss中设置了：
+
+#main_bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2000rpx;
+  height: 2000rpx;
+  z-index: -1;
+}
+
+///这个方案，后来在手机端调试时，发现是有问题的，整个背景图都被load进去了，屏幕可以左右滑动。这并不是想要的。
+
+4.问题，想要隐藏顶部导航栏。并修改标题。
+
+app.json里
+"window":{
+    
+    "navigationBarTitleText": "弹幕红包",
+    "navigationStyle":"custom"
+  }
+  
+  在选择了custom的导航栏后，导航栏的title不会出现。
+  
+  这里的弹幕红包不会出现。
+  
+  5.微信开发工具里的预览，可以在手机端调试，和远程调试是不同的。
+  
+  
+  6.
+  复习优达学城 小程序课程：
+  
+  text-align:center文字居中
+  
+  .title {
+   margin-top: 300rpx;
+   text-align: center;
+}
+ -------------------------- 
+  
+  所有的屏幕宽度都是750个rpx。
+  
+  
+  --------------------------------
+  
+  
+ iPhone 7 宽高比 375 x 667, 因此屏幕高度对应与 667 / 375 x 750 rpx = 1334 rpx
+iPhone 7 Plus 宽高比 414 x 736，因此屏幕高度对应与 736 / 414 x 750 rpx = 1333.33 rpx
+iPhone X 宽高比 375 x 812，因此屏幕高度对应与 812 / 375 x 750 rpx = 1624 rpx
+-----------------------------
+
+<view class="temp">12°</view>
+.temp {
+  margin-top: 300rpx;
+  text-align: center;
+  font-size: 200rpx;
+  line-height: 280rpx;   //行高一般是字号的1.4倍。
+  opacity: 0.8;
+}
+
+
+-------------------------------
+margin不包含在view容器里，所以不会和view相同的背景色。
+而padding是包含的。
+
+<view class="weather-wrapper">
+  <view class="temp">12°</view>
+  <view class="weather">晴天</view>
+</view>
+接着我设置 weather wrapper的上填充为174rpx, 下填充为250 rpx，加上两个文本框的高度 280rpx 和 56 rpx，正好760rpx。 如何保证宽度是 750 rpx 呢？ 整个屏幕宽度就是 750 rpx, 因此只要占满整个屏幕就可以了！
+
+.weather-wrapper{
+  padding-top: 174rpx;
+  padding-bottom: 250rpx;
+}
+------------------------------------
+
+image组件默认宽度300px、高度225px 注2：image组件中二维码/小程序码图片不支持长按识别。仅在wx.previewImage中支持长按识别。
+
+<image>的mode属性，默认是scaleToFill.其他如下：
+https://developers.weixin.qq.com/miniprogram/dev/component/image.html
+
+-----------------
+我自己的小程序 "弹幕红包“用ai生成了500乘以667的png图片。（比例刚好就是750乘以1000）。
+放到程序中，设置背景图片为750rpx 乘以1000rpx.
+
+所以我把容器view宽高设置为750rpx,1000rpx. 图片宽，高都是100%。
+----------------
+app.json里
+
+"window":{
+    
+    "navigationBarTitleText": "弹幕红包", 无法显示标题了。
+    "navigationStyle":"custom", 导航栏消失。
+    "navigationBarTextStyle":"white", 微信自带胶囊的颜色。
+    "backgroundColor":"#FF4563" 解决了上下滑动，背景出现黑色或者白色的问题。
+  }
+  
+各个页面的背景色
+在app.wxss里
+page {
+  background:rgb(255, 69, 99);
+}
