@@ -37,3 +37,23 @@ shape build tool.
 8.
 group : cmd+ g
 ungroup:shift+cmd+g
+
+9.
+做物体的阴影
+
+选中整个物体，复制，便宜。
+选中复制的整体，Effect -Blur -Gaussian 20px ，50%透明度的灰色
+
+10.从image里cut out shape，不能用Pathfinder,或者shape build tool.
+要用右键，make clipping mask。https://www.youtube.com/watch?v=pXl1rqjPwnI&t=177s
+
+11.
+pen tool 
+
+拖动，就是画曲线，不拖动就是画直线。按住cmd，修改画曲线时的那个辅助点。
+
+12.制作patter swatch
+
+https://www.youtube.com/watch?v=ITRZ75OKrG0
+https://www.youtube.com/watch?v=ITRZ75OKrG0
+我遇到的坑就是，如果有stroke，需要object - expand勾选stroke,fill，否则无法使用pathfinder里的crop。
