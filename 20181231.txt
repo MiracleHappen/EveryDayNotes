@@ -1,0 +1,40 @@
+20181231
+
+
+
+1.
+微信小程序-绑定事件以及bindtap和catchtap的区别
+
+
+https://blog.csdn.net/weixin_41975655/article/details/82869051
+
+
+2.
+
+微信小程序之自定义底部弹出框动画
+
+https://www.jianshu.com/p/cea2d4dc24d1
+
+3.
+https://blog.csdn.net/mossbaoo/article/details/83506352
+
+微信小程序 简单获取屏幕视口高度
+
+https://www.jb51.net/article/99982.htm
+微信小程序中使元素占满整个屏幕高度实现方法
+
+
+4.关于背景图
+https://blog.csdn.net/qq_2842405070/article/details/69382503
+
+我们的问题，图片不能拉伸，要保证图片中的小图 纵横比不变化。但是又要对所有尺寸的机型，都铺满整个屏幕。
+首先设置page{height:100%}
+然后设置背景<image mode="widthFix">
+暂时按需求解决了问题。
+另外背景图，通过ai制作的是宽度500px，高度1150px。能覆盖最长的iphone x， 750rpx,1624rpx.
+
+上述方法发现，图片全部被显示，在手机上能纵向滑动。这不是我想要的结果。
+
+把mode改成了aspectFill,成功实现了想要的。
+发现大多数主流机型，高宽比是1.778，只有iphoneX达到了2.165.
+

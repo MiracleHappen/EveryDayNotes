@@ -1,0 +1,31 @@
+20181230.
+
+1.<view id="bottom1"></view>
+        <view id="bottom2"></view>
+        <view id="bottom3"></view>   
+        
+        
+        #bottom1{
+  width:700rpx;
+  height:30rpx;
+  background-color: red;
+}
+
+#bottom2{
+  width:700rpx;
+  height:30rpx;
+  background-color:yellow;
+}
+#bottom3{
+  width:700rpx;
+  height:30rpx;
+  background-color:green;
+}
+
+
+
+添加padding导致小程序屏幕可以左右滑动。
+
+2.
+
+https://blog.csdn.net/helang296479893/article/details/82255471显示圆形头像图片的方法。
