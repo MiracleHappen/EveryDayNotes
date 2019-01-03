@@ -1,0 +1,27 @@
+
+20190102
+
+1.想让一个元素不跟随屏幕尺寸的变化，大小和位置（topleft）都不变，该如何定位？
+
+
+用fixed定位，而且设置px，而不是rpx。
+
+
+2.
+小程序表单组件 
+
+http://baijiahao.baidu.com/s?id=1605294315292423227&wfr=spider&for=pc
+
+3.
+给button添加背景图片
+
+<button class="weui-btn" form-type='submit' plain='true'> <image src='../../images/bm_btn.png' mode='widthFix'></image></button>
+
+button设为透明：plain=’true’ 
+button的padding设为：0，border设为：none
+
+传统的用“border:none;来去除边框”，依旧有一条细细的border;
+  使用 button::after{ border: none; } 来去除边框
+
+
+4.scroll-view上第二滑动块上的textarea没有跟着走。且第一时间就显示出来了。
