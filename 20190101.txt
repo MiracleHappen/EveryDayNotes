@@ -25,3 +25,21 @@ button的padding设为：0，border设为：none
 
 
 4.scroll-view上第二滑动块上的textarea没有跟着走。且第一时间就显示出来了。
+
+好久没动小程序了，今天打算复习复习，结果刚写了一个scroll-view就遇到了一个坑，这怎么能忍，对比看文档也没发现那里出了问题，没办法只能去翻翻微信给的demo,发现scroll-view一个必要属性和两个必要样式，缺其一就无法完成scroll-view。
+
+1.水平滑动的scroll-view
+
+水平滑动的scroll-view,需要给scroll-view一个固定的宽度，设置属性scroll-x,并且设置样式white-space:nowrap;（这个很重要，不设置这个样式，无法完成scroll-view的效果，我的坑也是遇在这了，三个条件缺一不可）
+
+2.竖直滑动的scroll-view
+
+竖直滑动的scroll-view,需要给scroll-view一个固定的高度，设置属性scroll-y,并且设置样式white-space:nowrap;（三个条件缺一不可）
+--------------------- 
+作者：Iterator_1993 
+来源：CSDN 
+原文：https://blog.csdn.net/Iterator_1993/article/details/79203810 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+
+
+5.

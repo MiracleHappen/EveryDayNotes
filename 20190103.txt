@@ -1,0 +1,44 @@
+20190103.
+
+1.scroll-view是存在于一个view中的，但是未滚动时，scroll-view的第二个滑块出现在了view之外。
+该如何隐藏。
+第二个问题是，依然是第二个滑块里的textarea只出现在初始位置并不随和滑动移动。
+
+scroll-view原来好好的，最近突然不动了，捣鼓半天，居然是要手工设定为scroll属性！下面两样样式必不可少，一是设定滚动方向上的宽度或高度，二是设置超出的处理为scroll
+
+    1、设定宽度
+    2、overflow:scroll;
+    
+-----------不行
+
+由于原生组件脱离在 WebView 渲染流程外，因此在使用时有以下限制： 
+组件的层级是最高的，所以页面中的其他组件无论设置 z-index 为多少，都无法盖在原生组件上。 
+后插入的原生组件可以覆盖之前的原生组件。 
+原生组件还无法在 scroll-view、swiper、picker-view、movable-view 中使用。 
+部分CSS样式无法应用于原生组件，例如： 
+无法对原生组件设置 CSS 动画 
+无法定义原生组件为 position: fixed 
+不能在父级节点使用 overflow:hidden 来裁剪原生组件的显示区域
+--------------------- 
+作者：xiaolidan00 
+来源：CSDN 
+原文：https://blog.csdn.net/qq_25740691/article/details/81867382 
+版权声明：本文为博主原创文章，转载请附上博文链接！
+--------
+
+
+debug过程：
+在第二个滑块中放入<view>hahaha</view>发现是跟着滑动的。问题在于<textarea>。<textarea>可能属于原生组件。
+用input代替textarea是可行的。
+
+
+3.
+
+https://www.zhihu.com/question/20727176中文字体收藏。
+
+4.
+渐变色，button反光
+https://gradientbuttons.colorion.co/
+
+https://designmodo.com/color-scheme-generators/配色网站
+https://www.colorion.co/
