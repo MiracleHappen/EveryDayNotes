@@ -1,0 +1,20 @@
+20190106
+
+1.
+
+cmd + shift +[ send to back
+
+N : pencil tool 
+V : select tool 
+i: eyedropper
+
+2.
+小程序：
+cover-view
+cover-image,只支持嵌套彼此。
+cover-view内可以使用button。
+
+3.
+点击按钮，移动view
+
+https://blog.csdn.net/FutrueJet/article/details/53157384
