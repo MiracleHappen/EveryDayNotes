@@ -1,0 +1,36 @@
+20190109
+
+1.微信小程序 弹出层
+
+https://blog.csdn.net/wangguang1995/article/details/80576587
+思想值得借鉴。
+
+
+微信小程序js的思想，就是通过函数，改变data，通过data控制一切。
+
+
+<!-- 点击出现弹框和遮罩层 -->
+ <view class="hbZhezhao {{isHBTrue?'isHBShow':'isHBHide'}}">
+    <view class='hbZhezhaoContent'>
+       <button class='hbHide' bindtap='hideHB'>关闭</button>
+
+    </view>
+  </view>
+  
+  
+  data: {
+     isHBTrue:false
+  },
+
+  //点击“我的红包”
+  showHB: function () {
+    this.setData({
+      isHBTrue: true
+    })
+  },
+  //点击关闭按钮
+  hideHB: function () {
+    this.setData({
+      isHBTrue: false
+    })
+  },
