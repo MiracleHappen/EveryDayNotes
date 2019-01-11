@@ -1,0 +1,12 @@
+20190110
+
+1.cmd + 2锁住当前selection.
+
+
+v - selection tool
+
+cmd+ g可以拉动渐变中心。
+
+https://www.youtube.com/watch?v=y1zR4h2aEDw
+
+https://www.youtube.com/watch?v=jYicMbddYBU
