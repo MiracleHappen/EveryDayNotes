@@ -1,0 +1,15 @@
+20190112
+
+1.https://blog.csdn.net/qq_35790269/article/details/82888252
+微信小程序 超过了2M代码上线。
+
+2.
+一个很好的button设计网站
+
+https://codemyui.com/tag/button/page/3/
+
+3.
+http://www.wxapp-union.com/portal.php?mod=view&aid=890支付倒计时效果
+https://www.cnblogs.com/softwyy/p/8948416.html微信小程序效果合集
+微信小程序video的弹幕https://www.cnblogs.com/taojiejun/p/8820213.html
+

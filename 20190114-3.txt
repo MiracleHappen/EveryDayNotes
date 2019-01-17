@@ -1,0 +1,141 @@
+20190114
+1.
+
+css3 trasition:
+
+.element{
+    transition:[property] [duration] [ease] [delay];
+}
+
+
+2.
+Animation & Keyframes
+/* The animation code */
+@keyframes example {
+  from {background-color: red;}
+  to {background-color: yellow;}
+}
+
+/* The element to apply the animation to */
+div {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  animation-name: example;
+  animation-duration: 4s;
+}
+
+transition &transform
+div {
+  width: 100px;
+  height: 100px;
+  background: red;
+  -webkit-transition: width 2s linear 1s; /* For Safari 3.1 to 6.0 */
+  transition: width 2s linear 1s;
+}
+
+div:hover {
+  width: 300px;
+}
+
+
+div {
+  width: 300px;
+  height: 100px;
+  background-color: yellow;
+  border: 1px solid black;
+  
+  transition:transform 1s linear 1s;
+}
+div:hover{
+		-ms-transform: translate(50px,100px); /* IE 9 */
+  -webkit-transform: translate(50px,100px); /* Safari */
+  transform: translate(50px,100px); /* Standard syntax */
+
+}
+
+
+3.http://www.cnblogs.com/coderL/p/7647738.html
+css3实现弹幕
+
+一番研究，发现是因为keyframes中使用left，这样的话left的改变会在渲染的过程中导致reflow，从而造成卡顿。那么改进的思路就比较明确了，移除left，只使用translate。
+
+reflow（回流）：例如某个子元素样式发生改变，直接影响到了其父元素以及往上追溯很多祖先元素（包括兄弟元素），这个时候浏览器要重新去渲染这个子元素相关联的所有元素。
+
+repaint（重绘）：如果只是改变某个元素的背景色、文 字颜色、边框颜色等等不影响它周围或内部布局的属性，将只会引起浏览器 repaint（重绘）
+
+回流的成本比重绘高得多
+
+
+
+
+下面情况会导致reflow发生
+
+ 
+
+1：改变窗口大小　　resize事件发生时
+
+ 
+
+2：改变文字大小
+
+ 
+
+3：内容的改变，如用户在输入框中敲字
+
+ 
+
+4：激活伪类，如:hover
+
+ 
+
+5：操作class属性
+
+ 
+
+6：脚本操作DOM
+
+ 
+
+7：计算offsetWidth和offsetHeight
+
+ 
+
+8：设置style属性
+
+
+
+4.wx:key
+http://www.wxappclub.com/topic/536
+
+
+5.
+Math.floor(Math.random() * 100);     // returns a random integer from 0 to 99
+Math.floor(Math.random() * 11);      // returns a random integer from 0 to 10
+Math.floor(Math.random() * 100) + 1; // returns a random integer from 1 to 100
+
+This JavaScript function always returns a random number between min (included) and max (excluded):
+
+Example
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min) ) + min;
+}
+
+
+6.弹幕功能代码借鉴了两个帖子
+
+
+http://www.cnblogs.com/coderL/p/7647738.html
+https://blog.csdn.net/wjq1028cs2/article/details/70807837
+
+
+7.
+一个冒泡的按钮
+https://codemyui.com/button-different-messages-click/
+
+8.小程序里怎么使用getElementById和innerHTML等函数？
+
+小程序里怎么使用getElementById和innerHTML等函数？
+
+
+9.https://blog.csdn.net/u012421719/article/details/70889542微信小程序效果合集
