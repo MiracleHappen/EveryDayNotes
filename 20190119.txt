@@ -1,0 +1,38 @@
+20190119
+
+1.https://codepen.io/yoannhel/pen/sJpDj/
+不用微信的swiper组件，自己构建文字替换效果。
+
+
+2.translate3D
+https://codepen.io/pen/?&editable=true
+
+.moved {
+  /* Equivalent to perspective(500px) translateX(10px) */
+  transform: perspective(100px) translate3d(0px, 0px, 50px);
+  background-color: pink;
+}
+
+perspective是景深
+
+translate3D三个坐标分别是，x, y, z轴。
+
+
+3.
+https://zhuanlan.zhihu.com/p/25808995
+深入理解 CSS：字体度量、line-height 和 vertical-align
+
+
+https://segmentfault.com/a/1190000003038583
+
+4.
+css控制字符串不超过div的长度，超过的部分用省略号显示
+https://blog.csdn.net/xuanlv_haoshao/article/details/79430818
+微信小程序 text-overflow 设置无效的问题
+https://blog.csdn.net/tel13259437538/article/details/82499852
+
+
+/文本溢出单行省略的代码如下：
+overflow:hidden;
+text-overflow:ellipsis;
+white-space:nowrap;
