@@ -1,0 +1,121 @@
+20190128
+1.
+传参
+
+https://blog.csdn.net/Aaron121314/article/details/79370166
+https://blog.csdn.net/u013778905/article/details/59129272
+
+
+2.
+微信小程序学习--传递参数的3种方式
+Rolan2017-7-17 00:45
+5754
+学习两周左右微信小程序了，做个小结吧，以后有时间再学了。玩玩还是挺有意思的。以下是小结：传递参数的3种方式（注意：以下传递的参数名都要使用小写字母，不要使用驼峰命名法或任何有大写字母的命名方式，不然传 ...
+
+学习两周左右微信小程序了，做个小结吧，以后有时间再学了。玩玩还是挺有意思的。以下是小结： 
+传递参数的3种方式（注意：以下传递的参数名都要使用小写字母，不要使用驼峰命名法或任何有大写字母的命名方式，不然传递过去都会被强转成小写字母，导致获取的时候出错！！）： 
+1、形式如 data-variable="{{variable}}"，(variable代表变量名)： 
+.wxml设置传递的参数:variable，格式如下：
+
+[html] view plain copy print?
+<view bindtap="functionName" data-variable="{{variable}}">  
+.js接收传递过来的参数:event.currentTarget.dataset.variable;（注意是currentTarget而不是target，直接console.log(event);具体可在控制台查看event存放的数据结构再决定访问方式。）
+
+[javascript] view plain copy print?
+functionName:function(event){  
+  console.log(event);  
+  var variableData = event.currentTarget.dataset.variable;   
+}  
+2、形式如 variable="{{variable}}"，(variable代表变量名)：（此方式经测试貌似有局限性，只能传递id过去，其它变量名无法接收），接收id:event.currentTarget.id或event.target.id。 
+hotMovies.wxml文件：
+
+[html] view plain copy print?
+<view wx:for="{{hotMovies(你的内容)}}" wx:for-item="item">  
+    <view class="picView">  
+       <image class="pic" src="{{item.images.medium(你的图片路径)}}" id="{{item.id(每一项的id)}}" bindtap="toDetail(绑定的点击函数)" />  
+    </view>  
+</view>  
+hotMovies.js文件：
+[javascript] view plain copy print?
+toDetail: function (event) {//参数：事件对象  
+  console.log(event);  
+  wx.navigateTo({  
+    url: '/pages/detail/detail?id=' + event.currentTarget.id,/**url传参*/  
+  })  
+}  
+3、继续接着2的例子看，这个主要是 url 传参： 
+hotMovies.js文件：
+
+[javascript] view plain copy print?
+toDetail: function (event) {//参数：事件对象  
+  console.log(event);  
+  wx.navigateTo({  
+    url: '/pages/detail/detail?id=' + event.currentTarget.id,/**url传参*/  
+  })  
+}  
+detail.js文件：
+
+[javascript] view plain copy print?
+onLoad: function (options) {  
+  /**括号内的options可以改名的，结果一样，无影响，已测试！*/     
+   console.log("options:");  
+   console.log(options);//就是一个接收传递过来的参数的对象  
+   var filmId = options.id;（接受url传参，不限制只能传递id变量名，可以传递多个变量名值）  
+   console.log(filmId);//获取在首页点击的电影图片的id  
+   /**具体逻辑实现 */  
+}  
+设置一个input输入要搜索的内容加上一个按钮点击即搜索（简单例子）： 
+.wxml文件
+
+[html] view plain copy print?
+<input bindinput="keyword" placeholder="默认文字的内容" placeholder-style="默认文字的样式"/>  
+<button bindtap="requestSomething" data-keyword="{{keyword}}">搜索</button><!--data-keyword  
+向函数传参keyword-->  
+.js文件
+
+[javascript] view plain copy print?
+keyword:function(event){  
+    this.setData({  
+    keyword:event.detail.value /**获取input输入的值并设置到搜索值 */  
+    });  
+}  
+requestSomething: function (event) {  
+    var keyword = null;  
+    if(event){//点击了搜索按钮才有此值  
+      keyword = event.currentTarget.dataset.keyword;/**获取到值后再请求相关数据 */  
+    }  
+    /**此处根据需要请求相关api获取数据 */  
+}  
+微信小程序本地存储数据与读取数据： 
+存储数据：
+
+[javascript] view plain copy print?
+wx.setStorage({  
+   //不会覆盖原来key的内容！     
+  key: 'detailInfo'+id,  
+  data: data,  
+})  
+或wx.setStorageSync('key', data); //会覆盖原来key的内容来存储新的内容！
+
+读取数据：
+
+[javascript] view plain copy print?
+var storageInfo = wx.getStorageSync(key);/**获取本地同步数据 */  
+微信小程序的发请求request:
+
+[javascript] view plain copy print?
+var data={...params...};//传递的参数对象  
+wx.request({  
+        url: url, //请求api的接口地址  
+        data: data,//传递的参数  
+        header: {  
+          'content-type': 'json'//不能写"application/json"否则报400错误。  
+        },  
+        success: function (res) {//请求数据成功后才执行的回调函数。  
+          console.log(res);  
+          that.setData({/**放在外部没效果，因为还没执行成功就分配了数据结果是空数据 */  
+            key: value  
+          });  
+          wx.setStorageSync('key', data);//第一次请求之后存储数据在本地  
+        }  
+});  

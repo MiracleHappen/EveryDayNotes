@@ -1,0 +1,65 @@
+20190130.
+
+1.微信小程序适配iPhoneX的方法 
+
+https://www.jb51.net/article/147613.htm
+
+目前也没有看到小程序有对iPhone X等异形屏有特殊的接口或字段。小程序本身的底部tab栏对iPhone X的适配也只是简单的加了一个白色底栏，提高了原有tab栏的位置。我们只能通过 wx.getSystemInfo 接口取获取设备信息，该接口使用方法如下：
+
+
+wx.getSystemInfo({
+ 
+   success: function (res) {
+ 
+      if (res.model == 'iphonrx') {
+ 
+         this.setData({
+ 
+            isIphoneX: true
+ 
+         })
+ 
+      }
+ 
+   }
+ 
+})　 
+其中 model 便是设备的型号等信息，如果 model 值为iphonerx ，便可认为该设备为iPhone X，我们在入口文件 app.js 中去进行检测，然后在全局增加一个 isIphoneX 字段。
+
+wxml部分：
+
+
+<view class="button-group {{isIphoneX ?'fix-iphonex-button':''}}">这是一个吸底按钮区域</view>
+
+
+wxss部分：
+
+.fix-iphonex-button {
+  bottom:68rpx!important;
+}
+ 
+.fix-iphonex-button::after {
+  content: ' ';
+  position: fixed;
+  bottom: 0!important;
+  height: 68rpx!important;
+  width: 100%;
+  background: #fff;
+} 
+
+
+---------
+https://juejin.im/post/5b595e616fb9a04f9e231ad1 上面方法存在问题的修正。
+https://www.jianshu.com/p/0b35b335d446 适配页面不止一个，写在app.js里。
+
+
+2.报错Cannot read property 'setData' of null;的解决：
+https://blog.csdn.net/xiaoqiang_0719/article/details/82623458
+
+3.
+小程序app.globalData 的数据读取问题
+http://html51.com/info-65694-1/
+
+https://blog.csdn.net/weixin_43055905/article/details/82898902
+
+https://blog.csdn.net/csl125/article/details/79097858

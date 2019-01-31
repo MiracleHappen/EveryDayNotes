@@ -1,0 +1,39 @@
+20190120.
+1.今天要做的几件事情 ：
+完成 大厅页的背景。
+做一个tab插件。
+完成下拉加载。
+完成图片轮播图。
+
+
+1.
+轮播图问题
+https://blog.csdn.net/MoDingXiao/article/details/54694891
+图片各种mode都尝试了，无法填满。
+
+<swiper class="swiper" indicator-dots="true" autoplay="true" interval="4000" duration="1000">  
+      <block wx:for="{{adv}}">  
+        <swiper-item style="background:url({{item.url}});background-repeat: no-repeat;background-size:100% 310rpx; ">  
+          <!-- <image src="{{item.url}}" class="slide-image" />   -->
+
+        </swiper-item>  
+      </block>  
+</swiper> 
+
+注释掉的是修改前官方代码。
+
+----
+上述方法，真机测试不过。
+
+改成如下：
+依然采用image但是给它设置和swiper一样的宽高
+
+swiper image{
+  width:100%;
+  height:310rpx;  ----swiper的高度。
+}
+
+2，
+单行 多行文本超出用省略号
+
+http://www.daqianduan.com/6179.html
