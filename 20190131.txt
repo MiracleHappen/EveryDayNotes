@@ -1,0 +1,49 @@
+20190131
+
+
+1.javascript字符串中提取数字
+
+function getNum(text){
+	var value = text.replace(/[^0-9]/ig,""); 
+	return value;
+}
+ 
+var num=getNum("前50%");
+num=parseInt(num);
+
+
+parseInt()只能对数字前面没有非数字字符的情况起作用。
+
+
+2.尝试用CSS做出箭头的按钮。
+唯一的缺憾是小程序不支持border的transparent。又尝试设置为和背景色一致的颜色，无奈背景不是单一颜色。只能放弃。
+.arrow-right {
+  position:absolute;
+  border-radius:0!important;
+  top:1135rpx;
+  left:390rpx;
+  width: 0; 
+  height: 0; 
+  border-top: 13rpx solid trasparent;
+  border-bottom: 13rpx solid trasparent;
+  border-right:4rpx solid trasparent;
+  border-left: 40rpx solid white;
+}
+
+.arrow-left {
+  position:absolute;
+  border-radius:0!important;
+  top:1135rpx;
+  left:262rpx;
+  width: 0; 
+  height: 0; 
+  border-top: 13rpx solid trasparent;
+  border-bottom: 13rpx solid trasparent; 
+  border-left:4rpx solid trasparent;
+  border-right:40rpx solid white ; 
+}
+
+<button class="arrow-left" bindtap="scrollToLeft"></button>
+<button class="arrow-right" bindtap="scrollToRight"></button>
+
+
