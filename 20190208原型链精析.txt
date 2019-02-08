@@ -1,0 +1,155 @@
+20190208
+
+1.
+今天继续妙味课堂的H5打怪小游戏。
+
+background-size:
+https://cssreference.io/property/background-size/
+---------
+background-size: auto auto;
+
+background-size: 120px 80px;
+
+background-size: contain; 
+
+background-size: cover;
+
+2.
+布局中，没有直接放置图片，而是用div的背景。
+
+3.
+考虑到”多层“，所以中间火箭，字体，等几个图片的布局，选择又用了一个div来（main_page1)包裹。
+并且这个外层div的位置和背景的大圆一致，内部的几个图片就相对于大圆来定位。
+
+4.
+@keyframes rocket {
+ 0%{ transform :translateX(-200px) translateY(200px);}
+ 100% {}
+}
+
+@-webkit-keyframes rocket {
+ 0%{ transform :translateX(-200px) translateY(-200px);}
+ 100% {}
+}
+
+这样写在移动端注重性能的情况下比这样写要好：
+
+@keyframes rocket {
+ 0%{ top:-29px; left:100px}
+ 100% {}
+}
+
+css中，div{ animation:rocket 1s;-web-kit-animation:rocket 1s;}
+
+
+因为本身有定位，translateY只是起始点相对于最终定位点的位移，表示从下方飞出来。
+元素本身的css中设置了opacity为0，为了停留在最终一帧，而不回归到opacity为0，
+在css中设置animation-fill-mode:forward.
+@-webkit-keyframes thanks {
+ 0%{ transform :translateY(100px);opacity:0;}
+ 100% {transform :translateY(0px);opacity:1;}
+}
+
+5.
+中间穿插学习一下原型和原型链
+通过原型这种机制，JavaScript 中的对象从其他对象继承功能特性；这种继承机制与经典的面向对象编程语言的继承机制不同。
+
+https://www.cnblogs.com/shuiyi/p/5305435.html 三张图搞懂原型链。
+
+var person = {
+    firstname:"Default",
+    lastname:"Default",
+    getFullName:function(){
+        return this.firstname + " " + this.lastname;
+    }
+    
+var john = {
+    firstname:'John',
+    lastname:"Doe"
+}
+
+
+// do not do this EVER!for demo purposes only!!!这种写法会极大的影响性能，__proto__这种写法也保证了不会误写出它来。
+john.__proto__ = person;
+console.log(john.getFullName());  // John Doe
+
+
+var jane = {
+    firstname:"Jane"
+}
+
+jane.__proto__ = person;
+console.log(jane.getFullName());  // Jane Default
+
+--------------
+prototype是函数才有的属性，__proto__只要是对象就有的属性。
+var a = {};
+console.log(a.prototype);  //undefined
+console.log(a.__proto__);  //Object {}
+
+var b = function(){}
+console.log(b.prototype);  //b {}
+console.log(b.__proto__);  //function() {}
+
+__proto__取决于对象创建的方式：
+/*1、字面量方式*/
+var a = {};
+console.log(a.__proto__);  //Object {}
+
+console.log(a.__proto__ === a.constructor.prototype); //true
+
+/*2、构造器方式*/
+var A = function(){};
+var a = new A();
+console.log(a.__proto__); //A {}
+
+console.log(a.__proto__ === a.constructor.prototype); //true
+
+/*3、Object.create()方式*/
+var a1 = {a:1}
+var a2 = Object.create(a1);
+console.log(a2.__proto__); //Object {a: 1}
+
+console.log(a.__proto__ === a.constructor.prototype); //false（此处即为图1中的例外情况）
+
+js中万物皆对象，所以会形成一条__proto__组成的链条。
+var A = function(){};
+var a = new A();
+console.log(a.__proto__); //A {}（即构造器function A 的原型对象）
+console.log(a.__proto__.__proto__); //Object {}（即构造器function Object 的原型对象）
+console.log(a.__proto__.__proto__.__proto__); //null
+
+
+MDN:注意: 理解对象的原型（可以通过Object.getPrototypeOf(obj)或者已被弃用的__proto__属性获得）与构造函数的prototype属性之间的区别是很重要的。前者是每个实例上都有的属性，后者是构造函数的属性。也就是说，Object.getPrototypeOf(new Foobar())和Foobar.prototype指向着同一个对象。
+https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript/Objects/Object_prototypes
+
+
+个人体会：.prototype是”我本身这儿“--我本家，.__proto__（也就是Object.getPrototypeOf(obj),是我的线索指向的那个东西那儿---我的上家。
+也就是说，我本家的东西（属性）是这些，我“上家”的东西是另一些。我本家没有的属性，去我上家里找。我上家也没有，去我上家的上家的本家找。
+
+一个函数，实例化得来的对象，是这个函数的“下家”。
+
+因为函数本身也可以直接添加属性的，但是与添加到prototype的属性不是一回事。所以有个Prototype来存放起“本家”的属性。但是直接用函数名.属性是get不到这个属性的。必须函数名.prototype.属性名。
+var a  = function(){}
+
+a.prop = "haha"
+"haha"
+console.log(a.prop)
+//haha
+a.prototype.p = "xixi"
+//"xixi"
+a.p 
+//undefined
+a.prototype.p
+//"xixi"
+
+上家，只有放入Prototype的属性，才能被下家获取。prototype就像是上家的一个保险箱。下家的__prototype__是这个保险箱的索引（钥匙）。
+var b = new a()
+//undefined
+b.__proto__.p
+//"xixi"
+b.__proto__.prop 
+//undefined
+
+
+
