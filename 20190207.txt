@@ -1,0 +1,55 @@
+2019.2.7
+
+1.https://www.cnblogs.com/wangfupeng1988/p/4649709.html
+一个很好的前端知识体系的框架总结。
+
+
+2.妙味课堂的photoshop 基础。
+前端主要是测量大小，以及拾取颜色。
+视图view中的标尺。
+矩形选框，面板上的首位。
+window窗口中的info.
+以及点击颜色块出现拾取器。
+
+
+3.今天学习一下微信H5动画。妙味课堂的微信H5打怪小游戏。
+
+多屏 用<section>
+
+3.
+body ,div, section上来就设置消除默认设置{margin : 0px;padding :0px}
+
+4.
+<meta charset="utf-8">
+<meta name="viewport" content="width=640,user-scalable=no,target-densityDpi=device-dpi">据说是微信端可以，移动浏览器端不行。默认的像素密度。
+
+5.
+边框，占据高宽。
+如高宽本来是430，边框为1.那么高宽就应该设置为429.
+
+6.负数的margin : top和left会让margin在对应方向上产生位移，而bottom，right会让其相邻元素产生相应的位移。
+视频里的设置，因为top, 设置了百分之50，相当于原本的布局起点是中心处，利用负数的margin，正好是元素高度的一半，让元素向上位移一半。
+
+7.
+这里背景有一个多重圆环。作者利用了box-shadow来制作。
+box-shadow :
+/* x偏移量 | y偏移量 | 阴影颜色 */
+box-shadow: 60px -16px teal;
+
+/* x偏移量 | y偏移量 | 阴影模糊半径 | 阴影颜色 */
+box-shadow: 10px 5px 5px black;
+
+/* x偏移量 | y偏移量 | 阴影模糊半径 | 阴影扩散半径 | 阴影颜色 */
+box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+
+/* 插页(阴影向内) | x偏移量 | y偏移量 | 阴影颜色 */
+box-shadow: inset 5em 1em gold;
+
+/* 任意数量的阴影，以逗号分隔 */
+box-shadow: 3px 3px red, -1em 0 0.4em olive;
+
+
+8.
+圆环是绝对定位，所以并没有把父级的高度给撑开。
+
+

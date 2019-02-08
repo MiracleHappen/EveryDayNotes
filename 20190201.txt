@@ -1,0 +1,39 @@
+20190201
+
+1.
+
+https://blog.csdn.net/yongh701/article/details/48682569
+【CSS】padding,border,margin与width宽度的关系
+
+
+2.
+<swiper id="hongbao-prepare-form" indicator-dots="{{false}}" autoplay="{{false}}" circular="{{false}}">
+发现属性的true false要打双括号。
+
+
+3.scroll-view无法实现，卡位置，就是卡在一个item处。它的滑动是完全线性的。
+
+而swiper可以。
+
+
+这次不用的两个函数。
+scrollToLeft:function(){
+    var i = parseInt(this.data.toView.substr(-1)); 
+    console.log(i);
+    if(i !=  1){
+      i -= 1;
+    }
+    this.setData({
+      toView: "item"+i
+    })
+},
+
+  scrollToRight: function () {
+    var i = parseInt(this.data.toView.substr(-1));
+    if (i !=  3) {
+      i += 1;
+    }
+    this.setData({
+      toView: "item" + i
+    })
+  },
