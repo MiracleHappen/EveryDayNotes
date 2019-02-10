@@ -1,0 +1,46 @@
+20190209
+
+1.今天继续妙味课堂的H5打怪小游戏
+
+5-控制动画
+
+为了能够控制入场动画。每个元素css的动画部分，提取出来，分配一个sectionIn的类名。
+再在js里，通过setTimeout，延迟2秒赋予这个类的名字。从而达到使出场整体的动画，时间得以延迟2秒的目的。
+
+setTimeout(function(){
+
+    addClass(getByClass(document,'section','bgColor')[0],'sectionIn');
+
+},2000);
+
+//addClass,getByClass都是作者自己写好的工具函数。
+
+section.sectionIn .main_page1 .withyou{
+ animation:withyou 1s;-webkit-animation:withyou 1s; animation-delay:0.6s; -webkit-animation-delay:0.6s;
+ ....
+}
+
+
+2.HTML5新对象
+
+<div class="music musicRun">
+    <audio src="" preload="auto"  autoplay="true"></audio>
+</div>
+音乐自动加载，自动播放。
+
+通过增删class，来实现对对象的控制。
+
+function musicShow(){
+  var au = s('music').getElementByTagName('audio')[0];
+  bind(s('music'),'touchstart',function(){
+    if(au.paused){
+        au.play();
+        removeClass(s('music'),'musicStop');
+        addClass(s('music'),'musicRun');
+    }else{
+        au.pause();
+        removeClass(s('music'),'musicRun');
+        addClass(s('music'),'musicStop');
+    }
+  });
+}
