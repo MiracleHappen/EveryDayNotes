@@ -1,0 +1,59 @@
+20181219
+
+
+1.
+adobe illustrator.
+首先很好的YouTube教程。讲shape build tool。
+https://www.youtube.com/watch?v=RTnT-PDPp7g
+
+
+去掉两个交叉的图片中不需要的部分。
+shape build tool.
+选中所有，然后alt + 鼠标滑过的区域。就会去掉这个区域。
+
+合并两个交叉的图形。
+选中所有，然后鼠标滑过需要合并的区域。
+
+只要交叉图形中的某个部分形状。
+选中所有交叉图形，用shape build tool点击其中某一个单独的块。
+点击选择工具，先取消全图选中，然后再去shape build tool点击过的图形，点击，就可以拖走该图形。
+
+2.画梯形
+
+用矩形，再用Direct selection tool，选中某个顶点，拉出去。
+
+3.rotate tool，
+选中shape 后，点rotate tool.在点击旋转点（可以在图形里外），然后点击图形外，拖动进行旋转。
+
+4.scale tool。
+选中shape,点scale tool, 按住shift,然后拖动鼠标，可以等比例放大缩小了。
+好像只对矩形，对圆形不正确。
+
+5.reflect tool.在scale tool里面。
+
+6.用direct selection选中矩形一边的两点，点击内侧的圆，可以修改矩形的顶点弧度。
+7.矩形圆角的另一种方式：Effect -Stylize -Round corners
+
+8.
+group : cmd+ g
+ungroup:shift+cmd+g
+
+9.
+做物体的阴影
+
+选中整个物体，复制，便宜。
+选中复制的整体，Effect -Blur -Gaussian 20px ，50%透明度的灰色
+
+10.从image里cut out shape，不能用Pathfinder,或者shape build tool.
+要用右键，make clipping mask。https://www.youtube.com/watch?v=pXl1rqjPwnI&t=177s
+
+11.
+pen tool 
+
+拖动，就是画曲线，不拖动就是画直线。按住cmd，修改画曲线时的那个辅助点。
+
+12.制作patter swatch
+
+https://www.youtube.com/watch?v=ITRZ75OKrG0
+https://www.youtube.com/watch?v=ITRZ75OKrG0
+我遇到的坑就是，如果有stroke，需要object - expand勾选stroke,fill，否则无法使用pathfinder里的crop。
