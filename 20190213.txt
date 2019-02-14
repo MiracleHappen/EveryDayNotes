@@ -1,0 +1,117 @@
+1.今天复习一下 <javascript the weird parts>的section 4. (UDEMY)
+
+第一个概念是 object 
+
+object其实就是数据的集合，键值对的集合，一个在内存中存储了数据的“东西”。
+原子类型的数据，对象，都可以做object的“property”。
+而函数，是对象的“method".
+
+
+var person = new Object(); //不是一个好的创建对象的方式。这里暂时使用。
+
+person["firstname"] = "Tony”；
+person['lastname'] = 'Alicea';
+
+var firstNameProperty = "firstname";
+
+person.address = new Object();
+person.address.street = "111 main st";
+person.address.city = "new york";
+person.address.state = "NY";
+
+2.
+
+Object literals；对象字面量。
+
+var Tony = {
+    firstname:'Tony',
+    lastname:'Alicea',
+    address:{
+        street:"111 main st",
+        city:'New york',
+        state:'NY'
+    }
+
+};
+
+function greet(person){
+    console.log('Hi'+ person.firstname);
+}
+
+greet(Tony);
+greet({ firstname:'Mary',lastname:'Doe'}); ///直接使用了object literal
+
+---------------
+namespace: a container to keep variables and functions separate.
+
+js里本身并没有name space的概念。但是可以fake it.
+
+var english ={};
+var spanish = {};
+spanish.greet = "Hola!";
+english.greet = "Hello!";
+
+----------------
+JSON 和object literals不是一回事 ：
+
+前者的写法要求更严格一点，属性必须被双引号括起来。
+
+var objectLiteral = {
+    firstname :'Mary',
+    isAProgrammer：true
+}
+
+console.log(JSON.stringify(objectLiteral));////object变成string.
+
+var jsonValue = JSON.parse('{"firstname":"Mary","isAProgrammer":true}'); ///外面单引号，里面双引号。经过parse后string变成object。
+
+
+
+3.first class function
+
+:所有你能对其他数据type做的事，都可以对function做。
+比如把函数赋值给变量，传递他们，在内存中创建它们。
+
+function greet(){
+    console.log('hi');
+}
+
+greet.language = "english";
+console.log(greet.language);
+
+function还有隐藏的属性，greet.name ///"greet"
+
+
+
+4.
+
+FUNCTION STATEMENTS & FUNCTION EXPRESSION
+
+expression : 返回一个值。而且不必一定要赋值给一个变量。
+
+
+
+greet();  ///hi
+
+function greet(){    ///这是一个函数statement。并没有创建一个object.
+ console.log('hi');
+}
+
+anonymousGreet();  /// Uncaught TypeError：undefined is not a function.
+
+var anonymousGreet = function(){   ///这在内存中创建了一个函数类型的object。这是一个function expression,是一个值，被赋给了变量。
+    console.log('hi);
+}
+
+
+在execution context的创建阶段，把所有的函数声明，和变量，存储到内存中。变量都被赋值undefined.
+到了execution context的执行阶段，第一行，call这个函数，就能找到在内存中的函数代码段，能得到调用。
+而anonymousGreet还是undefined，编译器会报错，告诉你无法当做一个函数被调用。
+
+function log(a){
+    a();     ///hi
+}
+
+log(function(){
+    console.log("hi");   ///这个被当做参数传递给a的匿名函数，也是一个function expression.通过a被调用。
+})
