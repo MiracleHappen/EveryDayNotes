@@ -1,0 +1,138 @@
+20190214
+
+1.今天继续复习javascript the weird parts section4
+
+按值传递 和按reference传递。
+所有的原子数据类型都是按值传递，所有的对象都是按索引传递。
+这在实际debug中，要十分注意。
+
+///by value
+
+var a = 3; 
+var b ;
+
+b = a;
+a = 2;
+
+console.log(a) ;///2
+console.log(b) ;/// 3
+
+
+//by reference(all objects 包括函数)
+
+var c = { greeting:"hi"};
+
+var d ;
+
+d = c;
+c.greeting = "hello"; //mutate
+
+console.log(c);  ///hello
+console.log(d);  ///hello
+
+//by reference(even as parameters)
+
+function changeGreetings(obj){
+    obj.greeting = "Hola";
+}
+
+
+changeGreeting(d);
+
+console.log(c);  ///Hola
+console.log(d);     ///Hola
+
+// 等号 sets up new memory space(new address)
+c = {greeting:"howdy"};
+
+console.log(c);
+console.log(d);
+
+
+2.
+functions and 'this':
+
+
+function a(){   //一个函数会创建一个execution environment
+    console.log(this);   
+    this.newvariable = "hello";
+}
+
+var b = function(){
+    console.log(this);  
+}
+
+a(); ///window
+
+console.log(newvariable); ///hello  全局变量上的属性，不需要用.操作符
+b();  ///window
+
+
+var c = {
+    name:"The c object',
+    log: function(){
+        this.name = "updated c object";   //对象上的函数，改变了对象上的属性
+        console.log(this);  ///object{name:"updated c object",....}
+        
+        
+        ////进一步添加如下的代码
+        var setname = function(newname){
+            this.name = newname;
+        }
+        
+        setname('Updated again!');
+        console.log(this); ///依然是 object{name:"updated c object",....}.
+                        ///同时，发现window全局对象上增加了一个属性：name:"updated again!"
+    }
+}
+
+c.log();  /// object{name:"updated c object",....}
+
+
+////上述问题的解决方式：
+
+
+var c = {
+    name:"The c object',
+    log: function(){
+        var self = this;
+    
+        self.name = "updated c object";   
+        console.log(self);  ///object{name:"updated c object",....}.
+        
+        
+        ////进一步添加如下的代码
+        var setname = function(newname){
+            self.name = newname;
+        }
+        
+        setname('Updated again!');
+        console.log(self); ///object{name:"updated again!",....}.
+                        
+    }
+}
+
+
+3.argument and spread:
+
+function greet(firstname,lastname,language,...other){
+    language = language || 'en';
+    
+    if(arguments.length === 0){
+        console.log('Missing parameters!");
+        return;
+    }
+    
+    console.log(firstname);
+    console.log(lastname);
+    console.log(arguments);  ///系统自带的关键字 打印所有参数组成的array: [..., ..., ...]
+    console.log('arg 0:' + arguments[0]);
+    console.log('----');
+    
+
+}
+
+
+
+
+
