@@ -295,6 +295,7 @@ WeakSet 和普通 Set 很像，但是具有以下关键区别：
 WeakSet 只能包含对象
 WeakSet 无法迭代，意味着不能循环访问其中的对象
 WeakSet 没有 .clear() 方法
+
 你可以像创建普通 Set 那样创建 WeakSet，但是需要使用 WeakSet 构造函数。
 
 const student1 = { name: 'James', age: 26, gender: 'male' };
@@ -387,3 +388,133 @@ Map {}
 提示：如果你使用 .set() 向 Map 中添加键已存在的键值对，不会收到错误，但是该键值对将覆盖 Map 中的现有键值对。此外，如果尝试使用 .delete() 删除 Map 中不存在的键值，不会收到错误，而 Map 会保持不变。
 
 如果成功地删除了键值对，.delete() 方法会返回 true，失败则返回 false。.set() 如果成功执行，则返回 Map 对象本身。
+
+11.
+    处理 Map
+构建 Map 后，可以使用 .has() 方法并向其传入一个键来检查 Map 中是否存在该键值对。
+
+const members = new Map();
+
+members.set('Evelyn', 75.68);
+members.set('Liam', 20.16);
+members.set('Sophia', 0);
+members.set('Marcus', 10.25);
+
+console.log(members.has('Xavier'));
+console.log(members.has('Marcus'));
+false
+true
+
+还可以通过向 .get() 方法传入一个键，检索 Map 中的值。
+
+console.log(members.get('Evelyn'));
+75.68
+                                                                                
+                                                                                
+12.
+循环访问 Map
+你已经创建了 Map，添加了一些键值对，现在你想循环访问该 Map。幸运的是，可以通过以下三种方式循环访问：
+
+使用 Map 的默认迭代器循环访问每个键或值
+使用新的 for...of 循环来循环访问每个键值对
+使用 Map 的 .forEach() 方法循环访问每个键值对
+
+1. 使用 MapIterator
+在 Map 上使用 .keys() 和 .values() 方法将返回新的迭代器对象，叫做 MapIterator。你可以将该迭代器对象存储在新的变量中，并使用 .next() 循环访问每个键或值。你所使用的方法将决定迭代器是否能够访问 Map 的键或值。
+
+let iteratorObjForKeys = members.keys();
+iteratorObjForKeys.next();
+Object {value: 'Evelyn', done: false}
+
+使用 .next() 获得下个键值对。
+
+iteratorObjForKeys.next();
+Object {value: 'Liam', done: false}
+
+等等。
+
+iteratorObjForKeys.next();
+Object {value: 'Sophia', done: false}
+
+另一方面，使用 .values() 方法访问 Map 的值，然后重复同一流程。
+
+let iteratorObjForValues = members.values();
+iteratorObjForValues.next();
+Object {value: 75.68, done: false}
+
+2. 使用 for...of 循环
+Map 的第二种循环访问方式是使用 for...of 循环。
+
+for (const member of members) {
+  console.log(member);
+}
+ ['Evelyn', 75.68]
+ ['Liam', 20.16]
+ ['Sophia', 0]
+ ['Marcus', 10.25]
+但是，在对 Map 使用 for...of 循环时，并不会得到一个键值或一个值。键值对会拆分为一个数组，第一个元素是键，第二个元素是值。有没有什么方法可以解决这一问题？
+
+/* Using array destructuring解构, fix the following code to print the keys and values of the `members` Map to the console.
+ */
+
+const members = new Map();
+
+members.set('Evelyn', 75.68);
+members.set('Liam', 20.16);
+members.set('Sophia', 0);
+members.set('Marcus', 10.25);
+
+for (const member of members) {
+    // console.log(key, value);
+    const [x,y] = member;
+     console.log(x)
+}
+                                                                                
+3. 使用 forEach 循环
+最后一种循环访问 Map 的方式是使用 .forEach() 方法。
+
+members.forEach((value, key) => console.log(value, key));
+ 'Evelyn' 75.68
+ 'Liam' 20.16
+ 'Sophia' 0
+ 'Marcus' 10.25
+注意，在使用箭头函数后，forEach 循环是如何简单地读取数据的。对于 members 中的每个 value 和 key，都会被输出到控制台中。  
+
+
+13.
+                                                                                什么是 WeakMap？
+WeakMap 和普通 Map 很像，但是具有以下关键区别：
+
+WeakMap 只能包含对象作为键，
+WeakMap 无法迭代，意味着无法循环访问，并且
+WeakMap 没有 .clear() 方法。
+
+你可以像创建普通 Map 那样创建 WeakMap，但是需要使用 WeakMap 构造函数。
+
+const book1 = { title: 'Pride and Prejudice', author: 'Jane Austen' };
+const book2 = { title: 'The Catcher in the Rye', author: 'J.D. Salinger' };
+const book3 = { title: 'Gulliver's Travels', author: 'Jonathan Swift' };
+
+const library = new WeakMap();
+library.set(book1, true);
+library.set(book2, false);
+library.set(book3, true);
+
+console.log(library);
+WeakMap {Object {title: 'Pride and Prejudice', author: 'Jane Austen'} => true, Object {title: 'The Catcher in the Rye', author: 'J.D. Salinger'} => false, Object {title: 'Gulliver's Travels', author: 'Jonathan Swift'} => true}
+
+但是如果你尝试添加对象以外的内容作为键，系统将报错！
+
+library.set('The Grapes of Wrath', false);//只能是对象，塞入字符串，报错
+Uncaught TypeError: Invalid value used as weak map key(…)
+
+这是可预期到的行为，因为 WeakMap 只能包含对象作为键。但是为何只能包含对象？同样，和 WeakSet 相似，WeakMap 利用垃圾回收机制让其可以更简单地使用和易维护。
+
+垃圾回收
+在 JavaScript 中，创建新的值时会分配内存，并且当这些值不再需要时，将自动释放内存。这种内存不再需要后释放内存的过程称为垃圾回收。
+
+WeakMap 通过专门处理对象作为键来利用这一点。如果将对象设为 null，则本质上是删除该对象。当 JavaScript 的垃圾回收器运行时，该对象之前占用的内存将被释放，以便稍后在程序中使用。
+
+book1 = null;
+console.log(library);
+WeakMap {Object {title: 'The Catcher in the Rye', author: 'J.D. Salinger'} => false, Object {title: 'Gulliver’s Travels', author: 'Jonathan Swift'} => true}
