@@ -1,0 +1,259 @@
+第 2 课 将探讨 JavaScript 函数为什么是 _一级_ 函数。
+
+
+1.
+函数是_一级_函数
+在 JavaScript 中，函数是一级_函数。这意味着，就像对象一样，你可以像处理其他元素（如数字、字符串、数组等）一样来处理函数_。
+JavaScript 函数可以：
+
+存储在变量中。
+从一个函数返回。
+作为参数传递给另一个函数。
+请注意，虽然我们可以将函数当作对象来处理，但是函数和对象之间的一个主要区别是，
+函数可以被调用（即使用 () 执行），而常规对象则_不能_。
+
+function average(n1,n2,n3){
+ return (n1 + n2 + n3)/3;
+}
+
+average.length  //3
+average.name //"average"  说明函数像对象一样具有属性
+
+
+高阶函数：
+既然我们知道函数是一级函数，我们可以将_函数作为一个值，十分简便地从函数返回函数_！返回另一个函数的函数被称为高阶函数。
+请考虑以下示例：
+
+function alertThenReturn() {
+  alert('Message 1!');
+
+  return function () {
+    alert('Message 2!');
+  };
+}
+如果在浏览器中调用 alertThenReturn()，我们会先看到一条提示消息，写着 Message 1!，接着是 alertThenReturn() 函数，它会返回一个匿名函数。但是，我们并不会看到一个 Message 2! 提示，因为并未执行内部函数中的任何代码。那么，我们如何执行所返回的函数呢？
+
+由于 alertThenReturn() 会返回一个_函数_，因此我们可以给这个返回值分配一个变量：
+
+const innerFunction = alertThenReturn();
+然后，我们可以像使用其他函数一样使用 innerFunction 变量！
+
+innerFunction();
+
+// 显示 'Message 2!'
+同样，这个函数可以被立即调用，而无需存储在一个变量中。如果我们简单地向 alertThenReturn() 添加另一组圆括号，我们仍然会得到相同的结果：
+
+alertThenReturn()();
+
+// 显示 'Message 1!' 然后显示 'Message 2!'
+
+
+2.回调函数
+接受其他函数作为参数（或返回函数，如上一部分所述）的函数被称为高阶函数。
+作为参数传递_给另一个函数的函数被称为回调函数。
+
+请考虑以下两个函数：
+
+function each(array, callback) {
+  for (let i = 0; i < array.length; i++) {
+    if (callback(array[i])) {
+      console.log(array[i]);
+    }
+  }
+}
+function isPositive(n) {
+  return n > 0;
+};
+当 each([-2, 7, 11, -4, -10], isPositive); 被执行时，什么将被输出到控制台？//7,11
+
+
+
+数组方法
+你可能在哪里看到过回调函数？在数组方法中！
+函数通常会被传递到数组方法中，并在数组（即调用该方法的数组）中的元素上被调用。
+
+让我们详细来看几个例子：
+
+forEach()
+map()
+filter()
+
+
+array.forEach(function callback(currentValue, index, array) {
+    // 函数代码写在这里
+});
+
+map()
+数组的 map() 方法类似于 forEach()，也会为数组中的每个元素调用一个回调函数。
+但是，.map() 会根据回调函数所返回的内容返回一个新的数组。
+
+请记住，.forEach() 和 .map() 之间的主要区别在于，
+.forEach() 不会返回任何东西，而 .map() 则会返回一个新的数组;
+就像 map() 一样，filter() 方法会返回一个_新的_数组，而不会修改原始数组：
+
+const shortNames = names.filter(function(name) {
+  return name.length < 6;
+});
+
+console.log(shortNames);
+// ['David']
+
+3.
+作用域
+
+如果你学过 Javascript 入门，你应该知道块作用域和函数作用域。
+它们决定了在某些代码中可以看到变量的地方。计算机科学家将此称为词法作用域。
+
+但是，还有另一种被称为运行时作用域的作用域。
+当一个函数被运行时，它会创建一个新的运行时作用域。这个作用域表示该函数的上下文，
+具体来说，就是可供该函数使用的一组变量。
+
+那么，一个函数究竟_能够_访问什么呢？
+
+1.The functions's arguments.
+2.Local variables declared within the function.
+3.Variables from its parent function scope.(父级函数的参数和它的局部定义的变量)
+4.Global Variables.
+
+functionTwo() 可以访问num1-num4
+const num1 = 5;
+
+function functionOne() {
+  const num2 = 10;
+
+  function functionTwo(num3) {
+    const num4 = 35;
+
+    return num1 + num2 + num3 + num4;
+  }
+
+  return functionTwo(0);
+}
+
+
+JavaScript 使用函数作用域
+为什么作用域与 JavaScript 中的_函数如此密切相关。
+特别是如果你曾用过其他编程语言，
+这可能看起来有点不同寻常（例如，Ruby 中的块_就有自己的作用域）！
+
+这完全是因为 JavaScript 中的变量传统上是在_函数作用域内定义的，
+而不是在块作用域内。由于输入一个函数会改变作用域，因此在函数内部定义的变量在该函数外部是不可用的。
+相反，如果在块_中定义了任何变量（例如，在 if 语句中），则这些变量在该块外部是可用的。
+
+让我们来看一个 JavaScript 中的函数作用域如何运作的例子：
+
+var globalNumber = 5;
+
+function globalIncrementer() {
+  const localNumber = 10;
+
+  globalNumber += 1;
+  return globalNumber;
+}
+
+在以上示例中，globalNumber 在该函数外部; 它是 globalIncrementer() 函数可以访问的一个全局变量。
+globalIncrementer() 只是声明了一个局部变量 (localNumber)，
+然后把 globalNumber 加 1，再返回 globalNumber 本身的更新值。
+
+在调用该函数几次后，我们看到 globalNumber 确实每次都会改变：
+
+console.log(globalIncrementer());
+// 6
+
+console.log(globalIncrementer());
+// 7
+
+console.log(globalIncrementer());
+// 8
+但是，当尝试访问该函数外部的 localNumber 时，我们会看到一个错误：
+
+console.log(localNumber);
+
+// ReferenceError: localNumber is not defined
+
+!!!!!由于 JavaScript 使用函数作用域，因此函数可以访问它自己的所有变量以及它外部的所有全局变量。
+
+这就是作用域链，scope chain.
+
+Window 对象💡
+还记得吗，当 JavaScript 应用程序在主机环境（例如浏览器）内运行时，
+主机会提供一个 window 对象，也被称为全局对象。
+所声明的任何全局变量都是作为这个对象的_属性_被访问的，它表示作用域链的最外层。
+
+当你所创建的变量与作用域链中的另一个变量具有相同名称时，会发生什么？
+
+JavaScript 不会弹出错误消息或阻止你创建这样一个变量。
+实际上，局部作用域的变量只会暂时“遮蔽”外部作用域中的变量。这被称为变量阴影。
+
+
+4.闭包
+
+闭包是指函数和该函数声明位置的词法环境的组合。
+函数保留对其作用域的访问的这个过程被称为闭包。
+每次定义函数时，都会为该函数创建闭包。
+对于在一个函数中定义另一个函数的情况，闭包尤其强大，它让嵌套函数可以访问其外部的变量。
+即使父函数已返回，函数也会保留一个到其父作用域的链接。
+！！！***这可以防止父函数内的数据被垃圾回收。
+
+当一个函数被声明时，它会锁定在作用域链上。
+你可能会认为这很简单，因为我们刚在上一部分学过。
+但是，函数的真正有趣之处在于，即使它在声明位置以外的地方被调用时，也会_保留_该作用域链。
+这一切都是由于闭包！
+
+闭包最大的作用就是出现在：
+一个函数，返回另一个函数。内嵌函数，在外部函数执行返回之后，依然可以访问原来所声明位置的作用域。
+这就是闭包的作用。
+
+
+闭包有什么应用，
+一个是使某个变量变为private state,从函数外无法访问。
+二是创建一个函数，用一些变量包装起来，然后保存起来以备后用。
+例如，如果屏幕上有五个按钮，则可以编写五个不同的点击处理器函数，也可以使用相同的代码五次，每次保存不同的值。
+
+练习：
+function expandArray(){
+    let myArray = [1,1,1];
+    return function(){
+        myArray.push(1);
+        return myArray;
+    };
+}
+
+
+5.IIFE
+
+立即调用函数表达式 (IIFE) 是在定义之后立即被调用的函数。
+将 IIFE 和闭包结合使用可以创建一个私有作用域，从而维护内部定义变量的私有性。
+而且，由于所创建的变量较少，IIFE 将有助于最大限度地减少对全局环境的污染，从而降低变量名称冲突的几率。
+
+立即调用函数表达式的好处
+我们已经知道，使用立即调用函数表达式可以创建一个私有作用域来保护变量或方法不被访问。
+IIFE 最终会使用所返回的函数来访问闭包内的私有数据。
+这样做很有好处：虽然这些所返回的函数可以公开访问，但它们仍可保持内部定义变量的私有性！
+
+另一个使用 IFFE 的好机会是当你想要执行一些代码，而又不想创建额外的全局变量时。
+但要注意的是，IIFE 只应该被调用一次，以创建唯一的执行上下文。
+如果你有一些代码需要重用（例如，一个要在应用程序中多次执行的函数），
+那么声明该函数然后再调用它可能是更好的选择。
+
+总而言之，如果你只想完成某个一次性任务（例如初始化应用程序），
+那么 IIFE 将是完成任务，同时避免额外变量污染全局环境的好办法。
+毕竟，清理全局名称空间可以减少重复变量名称冲突的几率。
+
+
+// button.js
+
+button.addEventListener('click', (function() {
+  let count = 0;
+
+  return function() {
+    count += 1;
+
+    if (count === 2) {
+      alert('This alert appears every other press!');
+      count = 0;
+    }
+  };
+})());
+由于所返回的函数可以访问内部变量 count，所以创建了一个私有作用域，以便有效地保护该数据！
+我们将 count 放在一个_闭包_中，从而让我们可以保留每次点击的数据。
