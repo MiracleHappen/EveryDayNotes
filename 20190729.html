@@ -1,0 +1,53 @@
+20190729
+
+1.https://blog.csdn.net/u014103733/article/details/79190717
+本地git init了一个库,并写了一个文件test.html放入其中，且完成了git add,commit等操作。
+github上也new了一个库，域名是git@github.com/AAA，并且选择了有README文件。
+
+然后需要git add remote orgin github@ruoyun.github.com/AAA。原因是这个电脑上配置了第二对公钥，
+对应MiracleHappen这个github账号。
+
+这时，需要git pull --rebase origin master才能把远程库里的README文件Pull到本地。
+然后再git push -u origin master,就可以把本地库里的文件test.html push到github上了。
+
+
+2.
+->git log --oneline这个命令可以查看基本的commit历史
+ab57a7b 1st commit
+a8c1022 Initial commit
+
+3.
+git checkout -- file；撤销对工作区修改；这个命令是以最新的存储时间节点（add和commit）为参照，
+覆盖工作区对应文件file；这个命令改变的是工作区
+　　
+git reset HEAD -- file；清空add命令向暂存区提交的关于file文件的修改（Ustage）；
+这个命令仅改变暂存区，并不改变工作区，这意味着在无任何其他操作的情况下，工作区中的实际文件同该命令运行之前无任何改变
+
+
+A 文件在第一次1st commit后进行了某些修改，+a. 并完成了第二次commit， 2nd commit。
+git checkout (1st commit编号) A文件名，本地工作区的A文件恢复成了第一次commit后的样子。
+
+此时,如果git status，可以看到+a操作是绿色的，也就是说+a修改在staging area.有待新的commit。
+此时staging area领先于 工作区。
+
+这时，git reset HEAD A文件名，
+再git status，可以看到+a修改变成了红色，也就是说unstage了这部分操作，就像平时，刚添加修改，还没有add时的状态。
+
+但是此时工作区文件，仍然是+a之前的0状态。
+
+也就是说这是+a这部分东西，既不在工作区中，也不在staging 暂存区中，但是它是存在。你依然可以对其add ,commit操作。
+
+如果这个时候，git diff A文件名，可以看到假工作区和暂存区stage的差别，也就是少了+a.
+（假工作区，是我自己的命名，它是工作区此时该有的样子，也就是正常流程时，add之前的样子。但是工作区此时是上一次commit的状态。
+
+
+总结：随着git checkout (某次commit的编号)，工作区回到了上一次commit时的状态。暂存区呢，却停留在该有的样子，是领先的状态。
+再通过git reset HEAD,暂存区的领先部分，会被删除，这部分内容会被unstage，处在一个中间的状态下。可以被重新add，以及commit。
+然后通过git diff就可以看到这个变化部分的内容。
+
+git diff : 比较工作区 与暂存的(git add 前)的差别,一个文件可以在commit之前多次add
+git diff --cached || --staged 比较暂存区（git add后）文件 与上一次commit 的差别
+
+
+
+
